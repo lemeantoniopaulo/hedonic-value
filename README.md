@@ -120,6 +120,7 @@ The roadmap represents **planned work**, not completed capabilities. See [ROADMA
 - [Adversarial audit and acceptance gates](docs/ADVERSARIAL_REVIEW_V1.md)
 - [Visualization architecture](docs/VISUALIZATION_SPECIFICATION.md)
 - [Tidyverse integration contract](docs/tidyverse-contract.md)
+- [Proposed hv_model v1 contract](docs/HV_MODEL_CONTRACT_V1.md) — specification awaiting implementation
 - [Implementation status](docs/IMPLEMENTATION_STATUS.md)
 - [CI failure investigation](docs/CI_FAILURE_TRIAGE_2026-10-26.md)
 - [Development roadmap](ROADMAP.md)
