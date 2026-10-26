@@ -1,7 +1,9 @@
 name: R-CMD-check
+
 on:
   push:
   pull_request:
+  workflow_dispatch:
 
 permissions:
   contents: read
@@ -12,62 +14,102 @@ jobs:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
-      - uses: r-lib/actions/setup-r@v2
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup R
+        uses: r-lib/actions/setup-r@v2
         with:
           use-public-rspm: true
-      - uses: r-lib/actions/setup-r-dependencies@v2
+
+      - name: Install check dependencies
+        uses: r-lib/actions/setup-r-dependencies@v2
         with:
           extra-packages: any::rcmdcheck, any::Rcpp, any::RcppArmadillo
           needs: check
-      - name: Verify Rcpp generated files
+
+      - name: Regenerate Rcpp interfaces
         shell: Rscript {0}
         run: |
-          stopifnot(file.exists("src/RcppExports.cpp"), file.exists("R/RcppExports.R"))
+          stopifnot(file.exists("src/hedonic_core.cpp"))
           Rcpp::compileAttributes()
           stopifnot(file.exists("src/RcppExports.cpp"), file.exists("R/RcppExports.R"))
-      - name: Check package
-        uses: r-lib/actions/check-r-package@v2
-        with:
-          upload-snapshots: true
-      - name: Upload check artifacts on failure
-        if: failure()
+
+      - name: Execute and capture R CMD check
+        id: rcheck
+        shell: bash
+        run: |
+          mkdir -p ci-diagnostics
+          Rscript -e 'rcmdcheck::rcmdcheck(args = c("--no-manual"), error_on = "never", check_dir = "ci-diagnostics", build_args = "--no-manual")' > ci-diagnostics/rcmdcheck-console.log 2>&1
+          result=$?
+          cat ci-diagnostics/rcmdcheck-console.log
+          if [ "$result" -ne 0 ]; then
+            echo "R check runner failed (exit $result)"
+            exit "$result"
+          fi
+          log=$(find ci-diagnostics -type f -name 00check.log -print -quit)
+          if [ -z "$log" ]; then
+            echo "::error::R CMD check log missing"
+            exit 1
+          fi
+          cat "$log"
+          status=$(grep -E '^Status: ' "$log" | tail -n 1 || true)
+          echo "Check status: $status"
+          if ! echo "$status" | grep -q '0 ERRORs, 0 WARNINGs, 0 NOTEs'; then
+            echo "::error::R CMD check did not pass cleanly: $status"
+            exit 1
+          fi
+
+      - name: Publish diagnostic summary
+        if: always()
+        shell: bash
+        env:
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          RUN_SHA: ${{ github.sha }}
+          CHECK_OUTCOME: ${{ steps.rcheck.outcome }}
+        run: |
+          mkdir -p ci-diagnostics
+          {
+            echo "## R-CMD-check — E0 diagnostic"
+            echo
+            echo "Run: $RUN_URL"
+            echo
+            echo "Commit: \`$RUN_SHA\`"
+            echo
+            echo "Check step outcome: **$CHECK_OUTCOME**"
+            echo
+            echo "### Check log"
+            log=$(find ci-diagnostics -type f -name 00check.log -print -quit)
+            echo '~~~text'
+            if [ -n "$log" ]; then
+              grep -E '^\\*|ERROR|WARNING|NOTE|Status:' "$log" | tail -n 150 || true
+            elif [ -f ci-diagnostics/rcmdcheck-console.log ]; then
+              tail -n 100 ci-diagnostics/rcmdcheck-console.log
+            else
+              echo "Check did not start or no logs were produced. Inspect preceding workflow steps."
+            fi
+            echo '~~~'
+          } | tee ci-diagnostics/summary.md >> "$GITHUB_STEP_SUMMARY"
+
+      - name: Upload diagnostics
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: R-CMD-check-diagnostics
-          path: |
-            check
-            *.Rcheck
-            **/00check.log
-            **/00install.out
-          if-no-files-found: ignore
-      - name: Publish diagnostic issue for failed push checks
+          path: ci-diagnostics/
+          if-no-files-found: warn
+
+      - name: Open issue for failed push
         if: failure() && github.event_name == 'push'
+        shell: bash
         env:
           GH_TOKEN: ${{ github.token }}
           GH_REPO: ${{ github.repository }}
-          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
           RUN_SHA: ${{ github.sha }}
-        shell: bash
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
-          set -uo pipefail
-          {
-            echo "Automated E0 diagnostic for failed R-CMD-check."
-            echo
-            echo "Run: $RUN_URL"
-            echo "Commit: $RUN_SHA"
-            echo
-            echo "### Available R CMD check summary"
-            log=$(find . -type f -name 00check.log -print -quit)
-            if [ -n "$log" ]; then
-              echo '~~~'
-              grep -E '^\*|ERROR|WARNING|NOTE|Status:' "$log" | tail -n 100 || true
-              echo '~~~'
-            else
-              echo "No 00check.log found; inspect the run steps and uploaded artifacts."
-            fi
-            echo
-            echo "Full logs and any artifacts remain in the linked workflow run."
-          } > diagnostic.md
-          gh issue create --title "CI E0: R-CMD-check failed (${RUN_SHA:0:8})" --body-file diagnostic.md ||
-            echo "::warning::Could not create diagnostic issue; check repository Actions permissions."
+          if [ ! -f ci-diagnostics/summary.md ]; then
+            printf 'R-CMD-check failed: %s\n' "$RUN_URL" > ci-diagnostics/summary.md
+          fi
+          gh issue create --title "CI E0: failed check (${RUN_SHA:0:8})" --body-file ci-diagnostics/summary.md ||
+            echo "::warning::Issue publication failed. Diagnostic summary and artifact are still available in Actions."
