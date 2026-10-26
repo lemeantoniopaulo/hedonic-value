@@ -91,6 +91,8 @@ A desserialização RDS só é prevista para arquivos de fonte confiável e com 
 
 Para WLS legado, conservar somente os pesos encontrados no ajuste como efetivamente usados; não afirmar que são os pesos originalmente solicitados nem que foram corretos. Modelos com versão futura, componentes incoerentes, classes inesperadas, n divergente ou níveis irrecuperáveis são rejeitados. Não executar nem reestimar a fórmula durante migração. Um guia deve listar alterações intencionais de segurança, incluindo erro em intervalo WLS não suportado, transformações desconhecidas na triagem e argumentos `...` recusados. Funções/assinaturas não são removidas nesta migração; eventual remoção exige ciclo de depreciação e versão documentada.
 
+Impactos adicionais de formato devem ser anunciados na versão de implementação: `hv_model_capabilities()` muda de uma linha para seis e substitui as flags antigas pelas capacidades nomeadas; `hv_predict_model()`/`hv_predict_tbl()` acrescentam metadados e recusam colisões; `tidy` e `glance` acrescentam colunas de disponibilidade; `hv_explain()` passa a expor offset; `hv_compare()`/`hv_benchmark()` exigem `truth_metadata`. Clientes que dependem de nomes, posições ou quantidade de linhas devem ser migrados; não se afirma compatibilidade binária ou de formato para essas saídas. O formato legado de `hv_predict()` continua o da seção 5.
+
 ## 8. Papel do C++
 
 `hv_ols_cpp` permanece **experimental e interno**, fora do caminho padrão e sem vantagem alegada. A implementação em R é referência para OLS. Para sua futura ativação: rejeitar matrizes não finitas, rank deficiente, n<=p e número de condição 2-norma exato >=1e8 (limiar operacional conservador, não garantia universal de estabilidade). Para casos aceitos, comparar coeficientes, resíduos e variância com `stats::lm` pela tolerância absoluta + relativa `1e-8 * max(1, abs(referência))` por elemento; graus de liberdade coincidem exatamente. Exercitar intercepto/sem intercepto e plataformas suportadas; definir fallback antes de liberar. Uma falha numérica jamais deve gerar fallback silencioso. Ainda não há evidência de paridade.
@@ -98,3 +100,4 @@ Para WLS legado, conservar somente os pesos encontrados no ajuste como efetivame
 ## 9. Critérios de implementação
 
 A etapa 4 implementará esquema, guardas e adaptadores com testes de migração, pesos, linhas, escala e operações cruzadas entre construtores. A etapa 5 implementará e validará inferência por estimador, sem habilitar a priori capacidades pendentes. A [matriz de casos](HV_MODEL_CASES_V1.md) fornece exemplos verificáveis e o estado de cada caso. Uma função só será marcada como disponível quando sua implementação e seus testes passarem no pacote instalado; não basta corresponder a este documento.
+
