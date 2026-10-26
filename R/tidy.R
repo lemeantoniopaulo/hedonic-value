@@ -9,9 +9,12 @@ tidy.hv_model <- function(x, ...) {
 #' @export
 glance.hv_model <- function(x, ...) {
   s <- summary(x$model)
+  fstat <- s$fstatistic
   tibble::tibble(r.squared=s$r.squared, adj.r.squared=s$adj.r.squared,
-    sigma=s$sigma, statistic=unname(s$fstatistic[1]),
-    df=unname(s$fstatistic[2]), df.residual=stats::df.residual(x$model),
+    sigma=s$sigma,
+    statistic=if (is.null(fstat)) NA_real_ else unname(fstat[1]),
+    df=if (is.null(fstat)) NA_real_ else unname(fstat[2]),
+    df.residual=stats::df.residual(x$model),
     nobs=stats::nobs(x$model), AIC=stats::AIC(x$model),
     BIC=stats::BIC(x$model))
 }
