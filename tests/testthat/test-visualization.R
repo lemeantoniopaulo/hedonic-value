@@ -1,0 +1,15 @@
+test_that("diagnostic plot data matches model residuals", {
+  d <- data.frame(y=1+2*seq_len(30)+sin(seq_len(30)),x=seq_len(30))
+  m <- hv_fit_model(y~x,d)
+  p <- hv_plot_data(m,"residuals")
+  expect_s3_class(p,"tbl_df")
+  expect_equal(p$.resid,as.numeric(stats::residuals(m$model)))
+  expect_s3_class(hv_plot(m,"residuals"),"ggplot")
+  expect_s3_class(hv_plot(m,"qq"),"ggplot")
+})
+test_that("temporal holdout is disjoint", {
+  d <- data.frame(date=as.Date("2020-01-01")+0:19,y=1:20)
+  s <- hv_temporal_split(d,"date",as.Date("2020-01-10"))
+  expect_length(intersect(s$train_rows,s$test_rows),0)
+  expect_equal(nrow(s$train)+nrow(s$test),nrow(d))
+})
