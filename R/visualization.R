@@ -4,15 +4,11 @@ hv_plot_data <- function(model, type=c("residuals","observed_vs_fitted","qq")) {
   stopifnot(inherits(model,"hv_model"))
   type <- match.arg(type)
   fit <- model$model
-  if (inherits(fit,"gls")) {
-    observed <- as.numeric(stats::getResponse(fit))
-    fitted <- as.numeric(stats::fitted(fit))
-    resid <- observed-fitted
-  } else {
-    observed <- as.numeric(stats::model.response(stats::model.frame(fit)))
-    fitted <- as.numeric(stats::fitted(fit))
-    resid <- as.numeric(stats::residuals(fit))
-  }
+  fitted <- as.numeric(stats::fitted(fit))
+  resid <- as.numeric(stats::residuals(fit))
+  observed <- fitted + resid
+  if (length(fitted)!=length(resid) || anyNA(fitted) || anyNA(resid))
+    stop("Inconsistent fitted values or residuals.")
   d <- tibble::tibble(.row_id=seq_along(fitted),.observed=observed,
                       .fitted=fitted,.resid=resid,.method=model$method,
                       .partition="training")
