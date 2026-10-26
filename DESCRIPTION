@@ -1,13 +1,16 @@
 Package: hedonicValue
+Type: Package
 Title: Auditable Hedonic Valuation of Brazilian Urban Real Estate
-Version: 0.0.1
+Version: 0.0.2
 Authors@R: person("Hedonic", "Value", role = c("aut", "cre"), email = "maintainer@example.org")
-Description: Explainable statistical valuation, uncertainty quantification and preliminary evidence-based normative checks. No ABNT or CAIXA certification is claimed.
+Description: Explainable statistical valuation with classical regression, diagnostic plots,
+    model comparison, and preliminary evidence-based normative checks.
+    The package does not certify ABNT NBR 14653 or CAIXA compliance.
 License: MIT
 Encoding: UTF-8
 Depends: R (>= 4.2.0)
-Imports: stats, Rcpp
+Imports: stats, Rcpp, tibble, dplyr, ggplot2, broom
 LinkingTo: Rcpp, RcppArmadillo
-Suggests: testthat (>= 3.0.0), sandwich, lmtest, car, MASS, quantreg, spdep, spatialreg, sf, mgcv, glmnet, boot
+Suggests: testthat (>= 3.0.0), sandwich, lmtest, car, MASS, nlme, quantreg, spdep, spatialreg, sf, mgcv, glmnet, boot, patchwork
 SystemRequirements: C++11
 Config/testthat/edition: 3
