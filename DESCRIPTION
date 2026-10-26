@@ -12,5 +12,5 @@ Depends: R (>= 4.2.0)
 Imports: stats, Rcpp, tibble, dplyr, ggplot2, broom
 LinkingTo: Rcpp, RcppArmadillo
 Suggests: testthat (>= 3.0.0), sandwich, lmtest, car, MASS, nlme, quantreg, spdep, spatialreg, sf, mgcv, glmnet, boot, patchwork
-SystemRequirements: C++14
+SystemRequirements: C++17
 Config/testthat/edition: 3
