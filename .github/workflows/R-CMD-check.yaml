@@ -2,6 +2,11 @@ name: R-CMD-check
 on:
   push:
   pull_request:
+
+permissions:
+  contents: read
+  issues: write
+
 jobs:
   check:
     runs-on: ubuntu-latest
@@ -36,3 +41,33 @@ jobs:
             **/00check.log
             **/00install.out
           if-no-files-found: ignore
+      - name: Publish diagnostic issue for failed push checks
+        if: failure() && github.event_name == 'push'
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+          RUN_SHA: ${{ github.sha }}
+        shell: bash
+        run: |
+          set -uo pipefail
+          {
+            echo "Automated E0 diagnostic for failed R-CMD-check."
+            echo
+            echo "Run: $RUN_URL"
+            echo "Commit: $RUN_SHA"
+            echo
+            echo "### Available R CMD check summary"
+            log=$(find . -type f -name 00check.log -print -quit)
+            if [ -n "$log" ]; then
+              echo '~~~'
+              grep -E '^\*|ERROR|WARNING|NOTE|Status:' "$log" | tail -n 100 || true
+              echo '~~~'
+            else
+              echo "No 00check.log found; inspect the run steps and uploaded artifacts."
+            fi
+            echo
+            echo "Full logs and any artifacts remain in the linked workflow run."
+          } > diagnostic.md
+          gh issue create --title "CI E0: R-CMD-check failed (${RUN_SHA:0:8})" --body-file diagnostic.md ||
+            echo "::warning::Could not create diagnostic issue; check repository Actions permissions."
