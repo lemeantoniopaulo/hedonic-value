@@ -100,4 +100,3 @@ Impactos adicionais de formato devem ser anunciados na versão de implementaçã
 ## 9. Critérios de implementação
 
 A etapa 4 implementará esquema, guardas e adaptadores com testes de migração, pesos, linhas, escala e operações cruzadas entre construtores. A etapa 5 implementará e validará inferência por estimador, sem habilitar a priori capacidades pendentes. A [matriz de casos](HV_MODEL_CASES_V1.md) fornece exemplos verificáveis e o estado de cada caso. Uma função só será marcada como disponível quando sua implementação e seus testes passarem no pacote instalado; não basta corresponder a este documento.
-
