@@ -1,0 +1,13 @@
+Package: hedonicValue
+Title: Auditable Hedonic Valuation of Brazilian Urban Real Estate
+Version: 0.0.1
+Authors@R: person("Hedonic", "Value", role = c("aut", "cre"), email = "maintainer@example.org")
+Description: Explainable statistical valuation, uncertainty quantification and preliminary evidence-based normative checks. No ABNT or CAIXA certification is claimed.
+License: MIT
+Encoding: UTF-8
+Depends: R (>= 4.2.0)
+Imports: stats, Rcpp
+LinkingTo: Rcpp, RcppArmadillo
+Suggests: testthat (>= 3.0.0), sandwich, lmtest, car, MASS, quantreg, spdep, spatialreg, sf, mgcv, glmnet, boot
+SystemRequirements: C++11
+Config/testthat/edition: 3
