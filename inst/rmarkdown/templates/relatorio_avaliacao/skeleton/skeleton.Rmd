@@ -9,25 +9,25 @@ params:
   study: "Não informado"
   purpose: "Não informado"
   status: "REVISAO_PROFISSIONAL_PENDENTE"
-  evidence_gaps: []
+  evidence_gaps: !r character()
   model: null
 ---
 
-~~~{r setup, include=FALSE}
+```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = FALSE, warning = FALSE, message = FALSE)
 fmt <- function(x, fallback = "Não informado") {
   if (is.null(x) || length(x) == 0L || is.na(x)[1L]) fallback else as.character(x)[1L]
 }
-~~~
+```
 
 # Identificação e finalidade
 
-- Estudo: \x60r fmt(params$study)\x60
-- Finalidade: \x60r fmt(params$purpose)\x60
+- Estudo: `r fmt(params$study)`
+- Finalidade: `r fmt(params$purpose)`
 
 # Modelo estatístico
 
-~~~{r model_summary}
+```{r model_summary}
 if (is.null(params$model)) {
   cat("Modelo não informado.\\n")
 } else if (inherits(params$model, "hv_model")) {
@@ -36,19 +36,19 @@ if (is.null(params$model)) {
 } else {
   print(summary(params$model))
 }
-~~~
+```
 
 # Evidências pendentes
 
-~~~{r gaps, results='asis'}
+```{r gaps, results='asis'}
 gaps <- params$evidence_gaps
 if (length(gaps)) cat(paste0("- ", gaps, collapse = "\\n")) else
   cat("Nenhuma pendência informada. Isso não equivale a conformidade.")
-~~~
+```
 
 # Estado da avaliação
 
-\x60r fmt(params$status, "CONFORMIDADE_NAO_DETERMINADA")\x60
+`r fmt(params$status, "CONFORMIDADE_NAO_DETERMINADA")`
 
 Este relatório organiza resultados e pendências. Não certifica conformidade com a ABNT NBR 14653-2, não substitui laudo e não substitui responsabilidade técnica.
 

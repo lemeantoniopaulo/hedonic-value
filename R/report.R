@@ -14,7 +14,7 @@ hv_render_report <- function(input, output_file = NULL, output_dir = NULL,
     stop("Install the 'rmarkdown' package to render reports.")
   if (!is.character(input) || length(input) != 1L || !file.exists(input))
     stop("input must be an existing R Markdown file.")
-  if (!is.list(params) || is.null(names(params)))
+  if (!is.list(params) || (length(params) > 0L && is.null(names(params))))
     stop("params must be a named list.")
   rmarkdown::render(input, output_format = match.arg(output_format),
     output_file = output_file, output_dir = output_dir, params = params,

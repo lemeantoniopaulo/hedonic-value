@@ -20,8 +20,13 @@ hv_fit_model <- function(formula, data, method=c("ols","wls","gls","robust"),
       stop("WLS requires finite positive weights for every row.")
   } else if (!is.null(weights)) stop("weights are currently supported only for wls.")
   if (method=="ols") fit <- stats::lm(formula, data=data, na.action=stats::na.fail, ...)
-  if (method=="wls") fit <- stats::lm(formula, data=data, weights=weights,
-                                     na.action=stats::na.fail, ...)
+  if (method=="wls") {
+    # lm() captures the expression supplied as weights. Supplying the already
+    # validated vector through do.call prevents lookup of stats::weights or a
+    # homonymous column in the model-frame environment.
+    fit <- do.call(stats::lm, c(list(formula=formula, data=data,
+      weights=weights, na.action=stats::na.fail), list(...)))
+  }
   if (method=="robust") {
     if (!requireNamespace("MASS",quietly=TRUE)) stop("Install MASS for robust regression.")
     fit <- MASS::rlm(formula, data=data, na.action=stats::na.fail, ...)
