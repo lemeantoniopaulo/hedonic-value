@@ -1,21 +1,22 @@
 # hedonic-value
 
-**Auditable hedonic valuation of Brazilian urban real estate — base R + tidyverse tools**
+**Avaliação hedônica auditável de imóveis urbanos brasileiros — R base, tidyverse e ggplot2**
 
-> **Status: experimental (v0.0.4).** The package is not certified or homologated by ABNT or CAIXA and is not a substitute for inspection, technical responsibility or an appraisal report.
+> **Estado: experimental (v0.0.4).** O pacote não é certificado ou homologado pela ABNT ou pela CAIXA. Não substitui vistoria, responsabilidade técnica, laudo ou julgamento profissional.
 
-## Purpose
+## Finalidade
 
-hedonicValue provides explainable wrappers around mature R statistical functions for exploratory and reproducible hedonic valuation:
+O pacote oferece ferramentas explicáveis para modelagem hedônica, diagnóstico estatístico, validação e geração de relatório R Markdown:
 
-- stats::lm() for OLS and WLS;
-- nlme::gls() for GLS;
-- MASS::rlm() for robust regression;
-- broom, tibble, dplyr and ggplot2 for tidy outputs and diagnostics.
+- stats::lm() para OLS e WLS;
+- nlme::gls() para GLS;
+- MASS::rlm() para regressão robusta;
+- broom, tibble, dplyr e ggplot2 para resultados organizados e gráficos;
+- rmarkdown para relatórios reprodutíveis.
 
-There is no native code. The package deliberately avoids a parallel numerical implementation when canonical R estimators already provide the required behavior, inference and diagnostics.
+Não há código nativo. A implementação numérica utiliza funções consolidadas do R.
 
-## Quick start
+## Uso rápido
 
     remotes::install_github("lemeantoniopaulo/hedonic-value")
     library(hedonicValue)
@@ -23,28 +24,30 @@ There is no native code. The package deliberately avoids a parallel numerical im
     hv_predict_model(modelo, imoveis[1:5, ], interval = "confidence")
     hv_plot(modelo, type = "residuals")
     broom::tidy(modelo)
-    broom::glance(modelo)
 
-The legacy hv_fit() / hv_predict() API remains available for compatibility. The newer hv_fit_model() API supports ols, wls, gls and robust, with estimator-specific limitations documented in the function behavior.
+A API legada hv_fit() / hv_predict() permanece disponível. A API hv_fit_model() suporta ols, wls, gls e robust, com limitações específicas por estimador.
 
-## Example data
+## Relatório R Markdown
 
-Small documented fixtures derived from the project memorandum are available in inst/extdata:
+O pacote adota R Markdown como formato canônico:
 
-- compact apartments in Ipiranga;
-- luxury houses around Represa Bortolan.
+    rmarkdown::draft("relatorio.Rmd",
+      template = "relatorio_avaliacao",
+      package = "hedonicValue", edit = FALSE)
 
-They are asking-price observations and project-level ranges, not verified transactions.
+Consulte docs/MODELO_RELATORIO_AVALIACAO.md.
 
-## Scope and cautions
+## Dados de exemplo
 
-Coefficients are conditional associations, not automatically causal effects. Out-of-sample performance, spatial dependence, transformations, uncertainty, representativeness and extrapolation require explicit assessment. Neither a high R² nor a successful package check establishes appraisal compliance.
+Os arquivos em inst/extdata contêm exemplos documentados de apartamentos compactos no Ipiranga e casas de alto padrão no entorno da Represa Bortolan. São dados de oferta e intervalos de projeto, não transações verificadas.
 
-Spatial econometrics, GAM, quantile, Bayesian and regularized models remain future extensions and should use established R packages when implemented.
+## Limites
 
-See ROADMAP.md, docs/SPECIFICATION.md and docs/IMPLEMENTATION_STATUS.md.
+Coeficientes são associações condicionais, não efeitos causais automáticos. Representatividade, dependência espacial, transformações, incerteza, extrapolação, fundamentação e precisão devem ser avaliadas separadamente.
 
+Consulte:
 
-## Conformidade normativa
-
-A auditoria metodológica e o plano sequencial de adequação à ABNT NBR 14653-2 e aos materiais do IBAPE/SP estão em [docs/PLANO_ADEQUACAO_NBR14653_IBAPE.md](docs/PLANO_ADEQUACAO_NBR14653_IBAPE.md). O documento distingue capacidade estatística, diagnóstico, rastreabilidade, fundamentação e precisão normativa. O pacote não certifica conformidade nem substitui laudo ou responsabilidade técnica.
+- docs/PLANO_ADEQUACAO_NBR14653_IBAPE.md;
+- docs/ADVERSARIAL_REVIEW_V1.md;
+- docs/IMPLEMENTATION_STATUS.md;
+- ROADMAP.md.
