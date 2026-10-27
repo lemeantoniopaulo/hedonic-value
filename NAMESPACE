@@ -21,3 +21,5 @@ export(hv_plot_data)
 export(hv_plot)
 export(hv_benchmark)
 export(hv_temporal_split)
+
+export(hv_render_report)
