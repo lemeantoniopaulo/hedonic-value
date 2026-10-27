@@ -15,7 +15,7 @@
 \alias{hv_temporal_split}
 \title{Hedonic valuation models, predictions and diagnostics}
 \description{Functions for exploratory hedonic valuation, model fitting, prediction,
-diagnostics, plotting, and comparison. These tools do not certify normative compliance.}
+diagnostics, plotting, comparison, and report rendering. These tools do not certify normative compliance.}
 \usage{
 hv_fit(formula, data, method = "ols")
 hv_predict(object, newdata, level = 0.8,
@@ -34,6 +34,9 @@ hv_plot_data(model, type = c("residuals", "observed_vs_fitted", "qq"))
 hv_plot(model, type = c("residuals", "observed_vs_fitted", "qq"))
 hv_benchmark(models, test_data, truth, id = NULL)
 hv_temporal_split(data, date, cutoff)
+hv_render_report(input, output_file = NULL, output_dir = NULL,
+                 output_format = c("html_document", "pdf_document", "word_document"),
+                 params = list(), ...)
 }
 \arguments{
 \item{formula}{A model formula.}
@@ -56,7 +59,7 @@ hv_temporal_split(data, date, cutoff)
 \item{date}{Date column name.}
 \item{cutoff}{Date separating training and test.}
 }
-\value{A model, tibble, data frame, ggplot object, or diagnostic list, according to function.}
+\value{A model, tibble, data frame, ggplot object, diagnostic list, or rendered report path, according to function.}
 \details{This is initial reference documentation. Statistical assumptions and interval
 semantics depend on the model family; unsupported intervals fail explicitly in the
 new API. Normative checks are preliminary and require independent review.}
