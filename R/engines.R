@@ -35,7 +35,7 @@ hv_fit_model <- function(formula, data, method=c("ols","wls","gls","robust"),
   }
   if (anyNA(stats::coef(fit))) stop("Non-estimable coefficients.")
   structure(list(model=fit, method=method, formula=formula, n=nrow(data),
-    data_columns=names(data), fitted_at=Sys.time(), normative_status="NOT_ASSESSED",
+    data_columns=names(data), fitted_at=Sys.time(), normative_status="CONFORMIDADE_NAO_DETERMINADA",
     capabilities=list(classical_prediction_interval=method %in% c("ols","wls"),
                       coefficient_inference=TRUE)),
     class="hv_model")
