@@ -1,11 +1,16 @@
-# Tidyverse-native interoperability contract
+# Contrato de integração com tidyverse
 
-- Accept base data.frame and tibble. sf inputs require a dedicated geometry-aware adapter before normative use.
-- broom::tidy(), broom::glance(), broom::augment() S3 methods for hv_model.
-- hv_predict_tbl(data, model, interval, level) returns tibble with .pred, .lower, .upper, .level and .interval.
-- ggplot2::autoplot(model, type) returns a ggplot object and supports additional layers.
-- Formula interface remains hv_fit(formula, data); pipe-first input uses hv_fit(data, formula) only after an explicit API refactor.
-- Model matrix creation must not silently convert geometry or change measurement units.
-- All outputs must disclose whether intervals are confidence, prediction, or posterior credible intervals.
-- S3 registration, package checks, numerical validation and spatial handling are release gates.
-- tidymodels/parsnip integration is planned, not implemented.
+O pacote aceita data.frame e tibble como entradas e retorna tibbles nas funções novas de previsão, benchmark e diagnóstico.
+
+## Regras
+
+- nomes de colunas devem ser preservados;
+- a fórmula deve ser informada separadamente dos dados;
+- resultados tabulares devem manter uma linha por observação quando forem observacionais;
+- métricas agregadas devem declarar a partição utilizada;
+- conversões de sf devem ser explícitas;
+- geometrias não devem ser removidas silenciosamente;
+- dados ausentes devem ser tratados antes do ajuste ou registrados;
+- o uso do metapacote tidyverse não é obrigatório.
+
+A integração não altera o significado estatístico do modelo.
