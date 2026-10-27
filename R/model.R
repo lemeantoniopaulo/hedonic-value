@@ -24,15 +24,24 @@ hv_predict <- function(object, newdata, level = .80,
 }
 hv_explain <- function(object, newdata) {
   stopifnot(inherits(object, "hv_model"), is.data.frame(newdata))
-  X <- stats::model.matrix(stats::delete.response(stats::terms(object$model)),
-    data = newdata, contrasts.arg = object$model$contrasts,
-    xlev = object$model$xlevels)
+  prediction_terms <- stats::delete.response(stats::terms(object$model))
+  mf <- stats::model.frame(prediction_terms, data = newdata,
+    na.action = stats::na.fail, xlev = object$model$xlevels)
+  X <- stats::model.matrix(prediction_terms, data = mf,
+    contrasts.arg = object$model$contrasts)
   B <- stats::coef(object$model)
   contributions <- sweep(X[, names(B), drop = FALSE], 2L, B, `*`)
   out <- as.data.frame(contributions)
-  out$estimated_value <- rowSums(contributions)
-  attr(out, "scale") <- if (identical(object$model$call[[1L]], as.name("lm"))) "linear_predictor" else "model_scale"
-  attr(out, "back_transform_required") <- TRUE
+  offset <- stats::model.offset(mf)
+  if (is.null(offset)) offset <- rep(0, nrow(out))
+  out$.offset <- as.numeric(offset)
+  out$estimated_value <- rowSums(contributions) + out$.offset
+  # The object does not record response transformations yet. Contributions are
+  # therefore reported only on the fitted model scale; no back-transformation
+  # is implied or requested.
+  attr(out, "scale") <- "model_scale"
+  attr(out, "response_transformation") <- "unknown"
+  attr(out, "back_transform_required") <- FALSE
   out
 }
 hv_diagnostics <- function(object) {
@@ -48,21 +57,15 @@ hv_normative_check <- function(object, newdata, evidence = list()) {
   X <- stats::model.matrix(object$model)
   k <- ncol(X) - 1L
   n <- stats::nobs(object$model)
-  ci <- hv_predict(object, newdata, level=.80, interval="confidence")
-  positive <- ci$fit > 0 & ci$lwr > 0
-  width <- ifelse(positive, (ci$upr - ci$lwr) / ci$fit, NA_real_)
-  precision <- ifelse(is.na(width), "NOT_CLASSIFIED",
-    ifelse(width <= .30, "III", ifelse(width <= .40, "II",
-      ifelse(width <= .50, "I", "NOT_CLASSIFIED"))))
-  list(status = "PRELIMINARY_ONLY",
-    standard = if (is.null(evidence$standard)) "NBR_14653-2:2011_VERIFY_EDITION" else evidence$standard,
-    n=n, k=k, minimum_sample_size=c(III=6*(k+1),II=4*(k+1),I=3*(k+1)),
-    sample_size_screen=c(III=n>=6*(k+1),II=n>=4*(k+1),I=n>=3*(k+1)),
-    interval_width_ratio=width, precision_screen=precision,
+  list(status = "CONFORMIDADE_NAO_DETERMINADA",
+    standard = if (is.null(evidence$standard)) NA_character_ else evidence$standard,
+    n=n, k=k,
+    reasons=c("No versioned normative rule set or professional review was supplied.",
+      "Statistical results do not establish normative conformity."),
     outstanding=c("market-data provenance", "model significance",
       "individual regressor tests", "categorical sample support", "extrapolation",
       "model assumptions", "physical/documentary survey", "technical responsibility",
-      "required report content", "applicable CAIXA tender version"))
+      "required report content", "applicable normative edition"))
 }
 hv_compare <- function(models, newdata, truth) {
   stopifnot(is.list(models), is.data.frame(newdata), truth %in% names(newdata))
