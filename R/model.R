@@ -10,7 +10,7 @@ hv_fit <- function(formula, data, method = "ols") {
 }
 print.hv_model <- function(x, ...) {
   cat("hedonicValue model |", x$method, "| n =", x$n,
-      "| normative status:", x$compliance, "\n")
+      "| normative status:", if (is.null(x$normative_status)) "CONFORMIDADE_NAO_DETERMINADA" else x$normative_status, "\n")
   print(summary(x$model)$coefficients)
   invisible(x)
 }
