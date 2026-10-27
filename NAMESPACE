@@ -1,5 +1,3 @@
-useDynLib(hedonicValue, .registration = TRUE)
-importFrom(Rcpp,evalCpp)
 importFrom(broom,tidy)
 importFrom(broom,glance)
 importFrom(broom,augment)
