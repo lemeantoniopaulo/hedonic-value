@@ -1,21 +1,35 @@
-# hedonic-value — Unified roadmap
-This roadmap supersedes earlier conflicting milestone definitions. See docs/ADVERSARIAL_REVIEW_V1.md and docs/IMPLEMENTATION_STATUS.md.
+# hedonic-value — Roadmap
 
 ## M0 — Valid package foundation
-Correct DESCRIPTION, NAMESPACE, Rcpp registration, maintainer identity, documentation, CI and R CMD check. **Gate:** automated package checks pass.
-## M1 — Explainable regression engine
-OLS, WLS, GLS, robust estimators, model-specific inference, tibble/broom/ggplot2 integration, diagnostic charts. **Gate:** numerical parity and plot-data tests.
-## M2 — Model selection and validation
-Regularization, nested and blocked temporal/spatial validation, out-of-sample metrics, uncertainty and support/extrapolation. **Gate:** no leakage; reproducible benchmark.
-## M3 — Nonlinear and distributional models
-GAM and quantile regression with estimator-specific inference and graphics. **Gate:** parity against mature R libraries.
-## M4 — Spatial econometrics
-sf, spdep, spatialreg, SAR/SEM/SDM, spatial impacts, maps and spatial diagnostics. **Gate:** spatial test fixtures and correct W semantics.
-## M5 — Probabilistic and index modules
-Bayesian inference with posterior diagnostics; hedonic price indices as a separate module. **Gate:** posterior checks and temporal evaluation.
-## M6 — Normative audit
-Versioned official ABNT NBR 14653 and applicable CAIXA requirements, separate precision/fundamentation/documentation evidence. **Gate:** independent normative review.
-## M7 — Institutional readiness
-Provenance, privacy, reproducibility, performance, external validation, audit reports and security. **Gate:** independently reviewed release.
 
-**Current state:** first implementation increment of M1 committed; M0 not yet validated. No certification or production-readiness claim.
+Use canonical R estimators, maintain a valid DESCRIPTION/NAMESPACE, keep the package free of native code, and obtain a clean R CMD check.
+
+## M1 — Explainable regression engine
+
+Validate OLS, WLS, GLS and robust regression through stats::lm, nlme::gls and MASS::rlm; preserve model-specific inference, tidy outputs and diagnostic plots.
+
+## M2 — Model selection and validation
+
+Add reproducible temporal and spatial holdouts, out-of-sample metrics, uncertainty and extrapolation-support diagnostics.
+
+## M3 — Nonlinear and distributional models
+
+Use established R packages for GAM and quantile regression, with estimator-specific inference and graphics.
+
+## M4 — Spatial econometrics
+
+Use sf, spdep and spatialreg for SAR/SEM/SDM, spatial impacts, maps and spatial diagnostics.
+
+## M5 — Probabilistic and index modules
+
+Add Bayesian inference with posterior diagnostics and a separate hedonic price-index module.
+
+## M6 — Normative audit
+
+Version official ABNT NBR 14653 and applicable CAIXA requirements separately from statistical estimation. No automatic compliance claim.
+
+## M7 — Institutional readiness
+
+Add provenance, privacy, reproducibility, external validation, audit reports and security.
+
+The roadmap represents planned work, not completed capability.
