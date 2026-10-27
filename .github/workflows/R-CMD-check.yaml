@@ -98,5 +98,5 @@ jobs:
           if [ ! -f ci-diagnostics/summary.md ]; then
             printf 'R-CMD-check failed: %s\n' "$RUN_URL" > ci-diagnostics/summary.md
           fi
-          gh issue create --title "CI E0: failed check ($${RUN_SHA:0:8})" --body-file ci-diagnostics/summary.md ||
+          gh issue create --title "CI E0: failed check (${RUN_SHA:0:8})" --body-file ci-diagnostics/summary.md ||
             echo "::warning::Issue publication failed. Diagnostic summary and artifact are still available in Actions."
