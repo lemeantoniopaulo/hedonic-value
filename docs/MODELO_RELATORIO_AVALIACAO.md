@@ -1,9 +1,17 @@
 # Modelo R Markdown de relatório de avaliação
 
-O pacote adota R Markdown como formato canônico de relatório. Quarto não faz parte da primeira implementação.
+R Markdown é o formato canônico do pacote. Quarto não faz parte da primeira implementação.
 
-O template organiza identificação, pesquisa de mercado, modelo estatístico, diagnósticos, evidências pendentes, estado da avaliação e conclusão profissional.
+O template organiza:
 
-A função hv_render_report() apenas delega a renderização a rmarkdown::render(). Ela não decide se um modelo é adequado, não calcula grau de fundamentação e não emite laudo.
+1. identificação e finalidade;
+2. pesquisa de mercado;
+3. modelo estatístico;
+4. diagnósticos;
+5. evidências pendentes;
+6. estado da avaliação;
+7. conclusão profissional.
 
-A ausência de pendências informadas não é interpretada como conformidade.
+A função hv_render_report() apenas delega a renderização a rmarkdown::render(). Ela não decide se o modelo é adequado, não calcula grau de fundamentação e não emite laudo.
+
+A ausência de pendências informadas não equivale a conformidade normativa.
