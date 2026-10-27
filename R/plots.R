@@ -1,3 +1,6 @@
+# Symbols evaluated by ggplot2's data mask, declared for R CMD check.
+utils::globalVariables(c(".fitted", ".observed", ".resid", ".theoretical"))
+
 #' @export
 autoplot.hv_model <- function(object, type=c("diagnostics","observed_vs_fitted"), ...) {
   type <- match.arg(type)
@@ -14,3 +17,4 @@ autoplot.hv_model <- function(object, type=c("diagnostics","observed_vs_fitted")
       ggplot2::labs(x="Observed price", y="Fitted price", title="Observed vs fitted")
   }
 }
+
