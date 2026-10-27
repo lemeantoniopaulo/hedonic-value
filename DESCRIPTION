@@ -1,11 +1,11 @@
 Package: hedonicValue
 Type: Package
-Title: Auditable Hedonic Valuation of Brazilian Urban Real Estate
+Title: Avaliação Hedônica Auditável de Imóveis Urbanos Brasileiros
 Version: 0.0.4
 Authors@R: person("Hedonic Value", "Contributors", role = c("aut", "cre"), email = "maintainer@example.org")
-Description: Explainable statistical valuation with classical R regression,
-    diagnostic plots, model comparison, and preliminary evidence-based
-    normative checks. Does not certify ABNT or CAIXA compliance.
+Description: Avaliação estatística explicável com regressão clássica em R,
+    gráficos diagnósticos, comparação de modelos e verificações preliminares
+    baseadas em evidências. Não certifica conformidade com ABNT ou CAIXA.
 License: MIT + file LICENSE
 Encoding: UTF-8
 Depends: R (>= 4.2.0)
