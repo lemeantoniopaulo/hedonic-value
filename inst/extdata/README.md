@@ -1,23 +1,20 @@
-# Example property data
+# Dados de exemplo de imóveis
 
-These files are compact fixtures derived from the tables in the accompanying
-technical memorandum *Regressão Hedônica Imobiliária*.
+Estes arquivos são amostras compactas derivadas das tabelas do memorando técnico
+*Regressão Hedônica Imobiliária*.
 
-They are **asking-price observations and project-level ranges**, not verified
-transactions. They are intended for parser tests, schema tests, exploratory
-examples and demonstrations of the package API. They must not be used to claim
-market representativeness or normative compliance.
+São **observações de preços de oferta e intervalos por empreendimento**, não
+transações verificadas. Destinam-se a testes de leitura, testes de esquema,
+exemplos exploratórios e demonstrações da API.
 
-## Files
+## Arquivos
 
-- `ipiranga_compact_listings.csv`: compact apartments/studios in the Ipiranga
-  area of São Paulo.
-- `bortolan_luxury_houses.csv`: houses in gated communities around Represa
-  Bortolan, Poços de Caldas/MG.
+- ipiranga_compact_listings.csv: apartamentos compactos e studios na região do Ipiranga;
+- bortolan_luxury_houses.csv: casas em condomínios no entorno da Represa Bortolan,
+  em Poços de Caldas/MG.
 
-The fields preserve ranges where the source provides ranges. Empty values mean
-that the memorandum did not report the attribute. Monetary values are BRL;
-areas are square metres; distances are not supplied in these fixtures.
+Os campos preservam intervalos quando a fonte não fornece valores individuais.
+Valores vazios indicam atributo não informado no memorando. Valores monetários
+estão em reais; áreas estão em metros quadrados.
 
-Source: *Regressão Hedônica Imobiliária*, supplied project attachment,
-sections “Painel Amostral de Microdados Observados”.
+Fonte: *Regressão Hedônica Imobiliária*, seção “Painel Amostral de Microdados Observados”.
