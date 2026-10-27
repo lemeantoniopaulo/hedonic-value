@@ -9,7 +9,7 @@ params:
   study: "Não informado"
   purpose: "Não informado"
   status: "REVISAO_PROFISSIONAL_PENDENTE"
-  evidence_gaps: []
+  evidence_gaps: !r character()
   model: null
 ---
 
