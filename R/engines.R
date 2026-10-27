@@ -20,8 +20,13 @@ hv_fit_model <- function(formula, data, method=c("ols","wls","gls","robust"),
       stop("WLS requires finite positive weights for every row.")
   } else if (!is.null(weights)) stop("weights are currently supported only for wls.")
   if (method=="ols") fit <- stats::lm(formula, data=data, na.action=stats::na.fail, ...)
-  if (method=="wls") fit <- stats::lm(formula, data=data, weights=weights,
-                                     na.action=stats::na.fail, ...)
+  if (method=="wls") {
+    # lm() captures the expression passed as `weights` and evaluates it in the
+    # model-frame context. Passing the formal symbol directly can resolve to
+    # stats::weights rather than this already validated numeric vector.
+    fit <- do.call(stats::lm, c(list(formula=formula, data=data,
+      weights=weights, na.action=stats::na.fail), list(...)))
+  }
   if (method=="robust") {
     if (!requireNamespace("MASS",quietly=TRUE)) stop("Install MASS for robust regression.")
     fit <- MASS::rlm(formula, data=data, na.action=stats::na.fail, ...)
@@ -74,3 +79,4 @@ hv_model_capabilities <- function(model) {
     classical_prediction_interval=isTRUE(model$capabilities$classical_prediction_interval),
     normative_status=model$normative_status)
 }
+
