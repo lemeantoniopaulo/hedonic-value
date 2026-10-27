@@ -1,35 +1,35 @@
-# hedonic-value — Roadmap
+# hedonic-value — Roteiro de desenvolvimento
 
-## M0 — Valid package foundation
+## M0 — Base válida do pacote
 
-Use canonical R estimators, maintain a valid DESCRIPTION/NAMESPACE, keep the package free of native code, and obtain a clean R CMD check.
+Manter DESCRIPTION, NAMESPACE, documentação, testes, CI e código sem componentes nativos. Obter R CMD check limpo.
 
-## M1 — Explainable regression engine
+## M1 — Motor de regressão explicável
 
-Validate OLS, WLS, GLS and robust regression through stats::lm, nlme::gls and MASS::rlm; preserve model-specific inference, tidy outputs and diagnostic plots.
+Validar OLS, WLS, GLS e regressão robusta usando estimadores consolidados do R, com saídas tidy, diagnósticos e gráficos.
 
-## M2 — Model selection and validation
+## M2 — Seleção e validação
 
-Add reproducible temporal and spatial holdouts, out-of-sample metrics, uncertainty and extrapolation-support diagnostics.
+Implementar validação temporal e espacial, métricas fora da amostra, incerteza, extrapolação e proteção contra vazamento.
 
-## M3 — Nonlinear and distributional models
+## M3 — Modelos não lineares e distribucionais
 
-Use established R packages for GAM and quantile regression, with estimator-specific inference and graphics.
+Adicionar GAM e regressão quantílica por meio de pacotes maduros, com inferência específica.
 
-## M4 — Spatial econometrics
+## M4 — Econometria espacial
 
-Use sf, spdep and spatialreg for SAR/SEM/SDM, spatial impacts, maps and spatial diagnostics.
+Integrar sf, spdep e spatialreg para SAR, SEM, SDM, impactos espaciais, mapas e diagnósticos.
 
-## M5 — Probabilistic and index modules
+## M5 — Inferência probabilística e índices
 
-Add Bayesian inference with posterior diagnostics and a separate hedonic price-index module.
+Adicionar inferência bayesiana, diagnósticos posteriores e módulo separado para índices hedônicos.
 
-## M6 — Normative audit
+## M6 — Auditoria normativa
 
-Version official ABNT NBR 14653 and applicable CAIXA requirements separately from statistical estimation. No automatic compliance claim.
+Versionar os requisitos oficiais aplicáveis da ABNT NBR 14653 e da CAIXA, separando fundamentação, precisão, documentação e responsabilidade profissional.
 
-## M7 — Institutional readiness
+## M7 — Prontidão institucional
 
-Add provenance, privacy, reproducibility, external validation, audit reports and security.
+Adicionar proveniência, privacidade, reprodutibilidade, validação externa, relatórios de auditoria e segurança.
 
-The roadmap represents planned work, not completed capability.
+O roteiro descreve trabalho planejado; não representa capacidade já implementada.
