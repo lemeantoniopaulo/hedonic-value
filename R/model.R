@@ -6,7 +6,7 @@ hv_fit <- function(formula, data, method = "ols") {
   structure(list(model = fit, method = method, formula = formula,
     n = stats::nobs(fit), created = Sys.time(),
     dataset_columns = names(data),
-    compliance = "NOT_ASSESSED"), class = "hv_model")
+    normative_status = "CONFORMIDADE_NAO_DETERMINADA"), class = "hv_model")
 }
 print.hv_model <- function(x, ...) {
   cat("hedonicValue model |", x$method, "| n =", x$n,
@@ -31,6 +31,8 @@ hv_explain <- function(object, newdata) {
   contributions <- sweep(X[, names(B), drop = FALSE], 2L, B, `*`)
   out <- as.data.frame(contributions)
   out$estimated_value <- rowSums(contributions)
+  attr(out, "scale") <- if (identical(object$model$call[[1L]], as.name("lm"))) "linear_predictor" else "model_scale"
+  attr(out, "back_transform_required") <- TRUE
   out
 }
 hv_diagnostics <- function(object) {
