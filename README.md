@@ -43,3 +43,8 @@ Coefficients are conditional associations, not automatically causal effects. Out
 Spatial econometrics, GAM, quantile, Bayesian and regularized models remain future extensions and should use established R packages when implemented.
 
 See ROADMAP.md, docs/SPECIFICATION.md and docs/IMPLEMENTATION_STATUS.md.
+
+
+## Conformidade normativa
+
+A auditoria metodológica e o plano sequencial de adequação à ABNT NBR 14653-2 e aos materiais do IBAPE/SP estão em [docs/PLANO_ADEQUACAO_NBR14653_IBAPE.md](docs/PLANO_ADEQUACAO_NBR14653_IBAPE.md). O documento distingue capacidade estatística, diagnóstico, rastreabilidade, fundamentação e precisão normativa. O pacote não certifica conformidade nem substitui laudo ou responsabilidade técnica.
