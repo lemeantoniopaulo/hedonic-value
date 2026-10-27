@@ -10,5 +10,5 @@ License: MIT + file LICENSE
 Encoding: UTF-8
 Depends: R (>= 4.2.0)
 Imports: stats, tibble, dplyr, ggplot2, broom
-Suggests: testthat (>= 3.0.0), sandwich, lmtest, car, MASS, nlme, quantreg, spdep, spatialreg, sf, mgcv, glmnet, boot, patchwork
+Suggests: rmarkdown, knitr, testthat (>= 3.0.0), sandwich, lmtest, car, MASS, nlme, quantreg, spdep, spatialreg, sf, mgcv, glmnet, boot, patchwork
 Config/testthat/edition: 3
