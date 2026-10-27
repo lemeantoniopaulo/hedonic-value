@@ -295,3 +295,181 @@ O pacote somente poderá afirmar que **apoia uma avaliação conforme** quando:
 Até lá, a formulação correta é:
 
 > “O pacote oferece ferramentas experimentais para modelagem hedônica, diagnóstico e validação estatística de dados imobiliários. Não certifica conformidade com a ABNT NBR 14653-2 nem substitui laudo de avaliação.”
+
+
+## 8. Contrato metodológico adversarial
+
+### 8.1 Regra de interpretação
+
+Este contrato adota a seguinte hierarquia:
+
+1. texto oficial da edição normativa aplicável;
+2. legislação e regulamentação vigente;
+3. norma técnica regional aplicável;
+4. literatura estatística e econométrica reconhecida;
+5. decisões de projeto e conveniências computacionais.
+
+Se houver conflito, uma conveniência da API não prevalece sobre um requisito normativo demonstrado. Se a edição aplicável não estiver identificada, o resultado normativo deve ser **NÃO DETERMINADO**, e não “conforme”.
+
+### 8.2 Separação de enunciados
+
+Toda saída deve distinguir quatro classes:
+
+| Classe | Conteúdo | Pode ser apresentado como conclusão normativa? |
+|---|---|---|
+| Observação | dado coletado, valor calculado ou fato documental | Não, isoladamente |
+| Resultado | estatística, coeficiente, teste, intervalo ou métrica | Não, isoladamente |
+| Inferência | interpretação estatística condicionada às hipóteses | Não, sem limites e pressupostos |
+| Juízo profissional | adequação do método, suficiência da amostra e conclusão do avaliador | Somente pelo responsável técnico |
+
+O software não deve converter automaticamente uma estatística em juízo profissional.
+
+### 8.3 Ônus de demonstração
+
+O ônus de demonstrar conformidade pertence à saída que a afirma. Portanto:
+
+- ausência de erro não é evidência de conformidade;
+- p-valor favorável não prova adequação do modelo;
+- R² elevado não prova validade de mercado;
+- intervalo estreito não prova boa fundamentação;
+- amostra grande não corrige amostra enviesada;
+- modelo espacial não corrige variável omitida;
+- regressão robusta não autoriza eliminar observações sem investigação;
+- validação cruzada não substitui validade regional e temporal;
+- preço de oferta não é transação apenas por estar em uma coluna chamada preço.
+
+### 8.4 Portões de bloqueio
+
+A camada de auditoria deve impedir a emissão de status **CONFORME** quando ocorrer qualquer uma das condições seguintes:
+
+1. edição normativa ausente, ambígua ou incompatível com a jurisdição;
+2. fonte ou natureza dos preços não documentada;
+3. data de referência ausente;
+4. localização insuficiente para o submercado analisado;
+5. amostra sem critérios de inclusão e exclusão;
+6. variável dependente sem unidade monetária ou temporal;
+7. observações duplicadas não investigadas;
+8. valores ausentes tratados sem registro;
+9. extrapolação fora do suporte da amostra;
+10. pressuposto crítico não avaliado ou resultado inconclusivo;
+11. dependência espacial relevante ignorada sem justificativa;
+12. transformação de variável sem registro;
+13. exclusão de outlier sem trilha de decisão;
+14. intervalo de confiança confundido com intervalo de predição;
+15. fundamentação e precisão não calculadas separadamente;
+16. ausência de revisão profissional quando a saída for usada em avaliação.
+
+O resultado padrão diante de uma dessas situações será **NÃO DEMONSTRADO**, acompanhado das razões.
+
+### 8.5 Invariantes estatísticos
+
+O contrato exige que:
+
+- treino e teste sejam separados antes de qualquer operação que aprenda com os dados;
+- transformações e imputações sejam ajustadas somente no treino quando houver validação;
+- a fórmula efetivamente ajustada seja registrada;
+- o número de observações e parâmetros seja preservado;
+- a unidade da variável dependente seja conservada na previsão;
+- intervalos de confiança e de predição permaneçam semanticamente distintos;
+- a previsão não seja apresentada fora do suporte sem alerta de extrapolação;
+- a escolha de um estimador alternativo seja justificada por diagnóstico, teoria ou objetivo explícito;
+- toda exclusão preserve o identificador original e a justificativa;
+- os resultados sejam reproduzíveis a partir da versão do pacote, dados e parâmetros.
+
+### 8.6 Invariantes normativos
+
+O contrato exige que:
+
+- o software não crie grau de fundamentação por aproximação heurística;
+- o software não crie grau de precisão a partir de limiares não documentados;
+- o campo de arbítrio não seja confundido com intervalo de confiança;
+- o intervalo de confiança de 80% não seja tratado como intervalo de predição;
+- a classificação normativa seja versionada;
+- cada regra tenha fonte, edição, item e interpretação registrada;
+- regras dependentes de julgamento profissional sejam marcadas como tais;
+- materiais didáticos do IBAPE não sejam tratados automaticamente como texto integral da ABNT;
+- uma norma regional não seja generalizada para outra jurisdição sem justificativa;
+- mudanças na norma invalidem ou coloquem em quarentena resultados anteriores.
+
+### 8.7 Adversários obrigatórios
+
+Cada modelo candidato deve ser submetido, no mínimo, a cinco tentativas de refutação:
+
+1. **Adversário da amostra:** procura seleção, duplicação, viés de oferta e cobertura insuficiente.
+2. **Adversário da especificação:** procura não linearidade, interações omitidas, transformação inadequada e variáveis omitidas.
+3. **Adversário dos resíduos:** procura heterocedasticidade, não normalidade, dependência e influência excessiva.
+4. **Adversário espacial/temporal:** procura autocorrelação, instabilidade regional, quebra temporal e vazamento.
+5. **Adversário documental:** procura ausência de fonte, unidade, data, justificativa, versão e trilha de auditoria.
+
+O modelo não deve ser “aprovado” por vencer um teste isolado. Deve ser mantido apenas quando as objeções relevantes forem respondidas ou explicitamente aceitas pelo responsável técnico.
+
+### 8.8 Estrutura mínima do objeto auditável
+
+A implementação futura deve registrar, no mínimo:
+
+- identificador do estudo;
+- identificador do imóvel avaliando;
+- data de referência;
+- finalidade;
+- tipo de imóvel;
+- região e submercado;
+- fonte e versão dos dados;
+- regra de seleção da amostra;
+- fórmula e transformações;
+- estimador;
+- parâmetros;
+- versão do R e do pacote;
+- sistema de coordenadas, quando aplicável;
+- diagnósticos executados;
+- advertências;
+- observações excluídas;
+- critérios de fundamentação;
+- critérios de precisão;
+- revisão profissional;
+- status final e razões.
+
+### 8.9 Estados permitidos
+
+A API normativa deve utilizar estados explícitos:
+
+- EXPLORATORIO;
+- ESTATISTICAMENTE_DIAGNOSTICADO;
+- VALIDADO_FORA_DA_AMOSTRA;
+- VALIDADE_ESPACIAL_NAO_DEMONSTRADA;
+- FUNDAMENTACAO_NAO_DEMONSTRADA;
+- PRECISAO_NAO_DEMONSTRADA;
+- REVISAO_PROFISSIONAL_PENDENTE;
+- NAO_CONFORME;
+- CONFORMIDADE_NAO_DETERMINADA.
+
+O estado CONFORME somente poderá existir quando todos os portões aplicáveis estiverem satisfeitos e a revisão profissional estiver registrada.
+
+### 8.10 Proibição de automatização indevida
+
+O pacote não deverá:
+
+- emitir laudo;
+- assinar responsabilidade técnica;
+- afirmar atendimento à ABNT apenas por ajustar regressão;
+- escolher automaticamente variáveis somente por p-valor;
+- remover discrepantes sem preservar a observação e sua justificativa;
+- tratar correlação como causalidade;
+- transformar uma classificação auxiliar em grau normativo;
+- ocultar alertas para produzir uma saída aparentemente limpa.
+
+## 9. Critérios de aceite do contrato
+
+A Fase 0 somente será considerada concluída quando houver:
+
+1. documentação da edição normativa utilizada;
+2. distinção entre observação, resultado, inferência e juízo profissional;
+3. estados explícitos de conformidade indeterminada;
+4. portões de bloqueio testáveis;
+5. registro de versão, dados e parâmetros;
+6. separação entre fundamentação e precisão;
+7. testes contra extrapolação e vazamento;
+8. trilha de exclusões e transformações;
+9. declaração de limitações em toda saída normativa;
+10. revisão por profissional habilitado antes de qualquer uso em laudo.
+
+Este contrato é um mecanismo de contenção epistemológica e documental. Ele não transforma automaticamente o pacote em instrumento normativo. Ele define as condições que deverão ser satisfeitas para que tal afirmação possa ser examinada.
