@@ -1,8 +1,0 @@
-listing_id,development,area_built_m2,area_land_m2,bedrooms,suites,bathrooms,covered_parking_spaces,condo_brl_month,asking_price_brl,pool_private,lake_view,solar_energy,fireplace,automated_home,furnished,source_note
-BOR-001,Residencial Campo da Cachoeira,470,780,5,3,5,3,900,2120000,0,0,1,1,0,0,"CA0322-F4U"
-BOR-002,Residencial Campo da Cachoeira,257.62,780,3,1,5,2,825,2480000,0,0,0,0,0,0,"CA0903-FAZZ; condominium range R$800-R$850"
-BOR-003,Residencial Campo da Cachoeira,288,800,4,4,6,2,831,2700000,0,0,0,0,0,0,"CA1293-MBXU/CA0777"
-BOR-004,Residencial Campo da Cachoeira,324,740,3,3,4,2,850,2900000,0,0,1,0,1,0,"CA0587-EDZJ"
-BOR-005,Residencial Campo da Cachoeira,607,786,4,4,6,4,950,6000000,1,0,0,0,0,1,"Residência Lampros"
-BOR-006,Residencial Campo da Cachoeira,610,1163,4,4,4,3,900,6800000,0,1,1,0,0,0,"CA1147-FAZZ"
-BOR-007,Residencial Campo da Cachoeira,752.6,1255,5,0,6,6,950,8000000,0,1,0,0,0,0,"CA0129-MORN; source reports 5-6 bedrooms"

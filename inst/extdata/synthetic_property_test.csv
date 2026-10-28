@@ -1,0 +1,15 @@
+observation_id,observation_type,market_segment,synthetic_development,synthetic_region,area_built_m2,area_land_m2,bedrooms,suites,bathrooms,asking_price_brl,rent_brl_month,price_m2_brl,condo_brl_month,iptu_brl_month,furnished,lake_view,solar_energy,pool_private,parking_spaces,observation_status,source_reference,is_synthetic
+SYN-RENT-001,rent,residential,synthetic_development_01,synthetic_region_01,330,869.27,4,3,4,,10000,,1100,375,1,1,1,0,2,preliminary_offer,synthetic_inspired_by_evaluation,1
+SYN-RENT-002,rent,residential,synthetic_development_01,synthetic_region_01,326.48,869.27,4,3,4,,10800,,850,375,1,1,1,0,2,reconciled_target,synthetic_inspired_by_evaluation,1
+SYN-RENT-003,rent,residential,synthetic_development_01,synthetic_region_01,306,780,3,3,4,,8800,,800,360,0,1,1,0,2,comparative_offer,synthetic_inspired_by_evaluation,1
+SYN-RENT-004,rent,residential,synthetic_development_01,synthetic_region_01,371,800,4,3,5,,11000,,900,380,0,1,1,0,2,comparative_offer,synthetic_inspired_by_evaluation,1
+SYN-RENT-005,rent,residential,synthetic_development_01,synthetic_region_01,320,760,4,3,4,,8500,,780,350,0,0,1,0,2,comparative_offer,synthetic_inspired_by_evaluation,1
+SYN-RENT-006,rent,residential,synthetic_development_01,synthetic_region_01,335,820,4,3,4,,5000,,700,340,0,0,0,0,2,low_reference,synthetic_inspired_by_evaluation,1
+SYN-RENT-007,rent,residential,synthetic_development_01,synthetic_region_01,305,790,4,3,4,,10000,,820,360,1,1,1,0,2,comparative_offer_area_total,synthetic_inspired_by_evaluation,1
+SYN-RENT-008,rent,residential,synthetic_development_01,synthetic_region_01,326.48,869.27,4,3,4,,10922.98,,850,375,1,1,1,0,2,model_cross_check,synthetic_inspired_by_evaluation,1
+SYN-SALE-001,sale,residential,synthetic_development_01,synthetic_region_01,257.62,780,3,1,4,2232000,,8663.92,850,375,0,0,0,0,2,homogenized_offer,synthetic_inspired_by_evaluation,1
+SYN-SALE-002,sale,residential,synthetic_development_01,synthetic_region_01,288,800,4,4,5,2430000,,8437.50,850,375,0,0,0,0,2,homogenized_offer,synthetic_inspired_by_evaluation,1
+SYN-SALE-003,sale,residential,synthetic_development_01,synthetic_region_01,306.13,820,4,3,4,2340000,,7643.81,850,375,0,0,0,0,2,homogenized_offer,synthetic_inspired_by_evaluation,1
+SYN-SALE-004,sale,residential,synthetic_development_01,synthetic_region_01,324,740,4,3,4,2610000,,8055.56,850,375,0,1,1,0,2,homogenized_offer,synthetic_inspired_by_evaluation,1
+SYN-SALE-005,sale,residential,synthetic_development_01,synthetic_region_01,293.94,790,4,3,4,2403000,,8175.14,850,375,0,0,1,0,2,synthetic_benchmark,synthetic_inspired_by_evaluation,1
+SYN-SALE-006,sale,residential,synthetic_development_01,synthetic_region_01,470,780,5,3,5,2120000,,4510.64,900,400,0,0,1,0,3,contrast_case,synthetic_inspired_by_evaluation,1

@@ -1,20 +1,23 @@
-# Dados de exemplo de imóveis
+# Dataset de teste do pacote
 
-Estes arquivos são amostras compactas derivadas das tabelas do memorando técnico
-*Regressão Hedônica Imobiliária*.
-
-São **observações de preços de oferta e intervalos por empreendimento**, não
-transações verificadas. Destinam-se a testes de leitura, testes de esquema,
-exemplos exploratórios e demonstrações da API.
+Este diretório contém somente dados artificiais e anonimizados distribuídos
+para testes de leitura, validação de esquema e demonstrações da API.
 
 ## Arquivos
 
-- ipiranga_compact_listings.csv: apartamentos compactos e studios na região do Ipiranga;
-- bortolan_luxury_houses.csv: casas em condomínios no entorno da Represa Bortolan,
-  em Poços de Caldas/MG.
+- synthetic_property_test.csv: dataset artificial e anonimizado para
+  testes de esquema, validação, exemplos de regressão e casos de conflito.
 
-Os campos preservam intervalos quando a fonte não fornece valores individuais.
-Valores vazios indicam atributo não informado no memorando. Valores monetários
-estão em reais; áreas estão em metros quadrados.
+O arquivo `synthetic_property_test.csv` foi gerado a partir de faixas e
+relações numéricas fornecidas para teste. Não contém endereços, inscrições
+cadastrais, nomes de imóveis ou identificadores reais.
+Todos os registros possuem `is_synthetic = 1` e `source_reference` indica que
+se trata de uma reprodução sintética, não de uma transação observada.
 
-Fonte: *Regressão Hedônica Imobiliária*, seção “Painel Amostral de Microdados Observados”.
+As linhas combinam observações de locação (`observation_type = rent`) e venda
+(`observation_type = sale`). Campos que não se aplicam ao tipo da observação
+ficam vazios. O registro `SYN-RENT-002` representa um alvo conciliado; ele não
+deve ser tratado como observação independente ao estimar um modelo.
+
+Valores vazios indicam atributo não aplicável ao tipo da observação. Valores
+monetários estão em reais; áreas estão em metros quadrados.

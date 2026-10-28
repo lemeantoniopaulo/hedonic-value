@@ -20,8 +20,12 @@ Não há código nativo. A implementação numérica utiliza funções consolida
 
     remotes::install_github("lemeantoniopaulo/hedonic-value")
     library(hedonicValue)
-    modelo <- hv_fit_model(preco ~ area + idade, imoveis, method = "ols")
-    hv_predict_model(modelo, imoveis[1:5, ], interval = "confidence")
+    dados <- read.csv(system.file("extdata", "synthetic_property_test.csv",
+      package = "hedonicValue"))
+    locacao <- subset(dados, observation_type == "rent")
+    modelo <- hv_fit_model(rent_brl_month ~ area_built_m2 + suites,
+      locacao, method = "ols")
+    hv_predict_model(modelo, locacao[1:5, ], interval = "confidence")
     hv_plot(modelo, type = "residuals")
     broom::tidy(modelo)
 
@@ -35,19 +39,15 @@ O pacote adota R Markdown como formato canônico:
       template = "relatorio_avaliacao",
       package = "hedonicValue", edit = FALSE)
 
-Consulte docs/MODELO_RELATORIO_AVALIACAO.md.
+Consulte o [guia completo de uso](docs/USAGE.md).
 
 ## Dados de exemplo
 
-Os arquivos em inst/extdata contêm exemplos documentados de apartamentos compactos no Ipiranga e casas de alto padrão no entorno da Represa Bortolan. São dados de oferta e intervalos de projeto, não transações verificadas.
+O arquivo em `inst/extdata` é artificial e anonimizado, para testes de esquema,
+validação e demonstrações. Não representa transações verificadas.
 
 ## Limites
 
 Coeficientes são associações condicionais, não efeitos causais automáticos. Representatividade, dependência espacial, transformações, incerteza, extrapolação, fundamentação e precisão devem ser avaliadas separadamente.
 
-Consulte:
-
-- docs/PLANO_ADEQUACAO_NBR14653_IBAPE.md;
-- docs/ADVERSARIAL_REVIEW_V1.md;
-- docs/IMPLEMENTATION_STATUS.md;
-- ROADMAP.md.
+As limitações e o estado experimental estão descritos em [docs/USAGE.md](docs/USAGE.md).

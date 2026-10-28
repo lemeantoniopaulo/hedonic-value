@@ -1,5 +1,0 @@
-listing_id,development,location,property_type,area_min_m2,area_max_m2,price_min_brl,price_max_brl,price_m2_min_brl,price_m2_max_brl,condo_min_brl_month,condo_max_brl_month,iptu_min_brl_month,iptu_max_brl_month,pool,gym,laundry,coworking,rooftop,parking_available,year_built
-IPI-001,Wonder Ipiranga Studios,"Rua Ettore Lantieri, 102",studio_or_1br,24,42,275000,430000,8590,10380,350,800,1,50,1,1,0,0,0,0,
-IPI-002,Now Studios Ipiranga,"Rua Dois de Julho, 740",studio_or_1br,30,40,380000,610000,11040,13500,374,740,5,110,1,1,0,0,0,1,
-IPI-003,Giovanni Studios,"Rua Dr. Mário Vicente, 1686",1br,27,50,380000,475500,7600,9500,80,132,0,52,0,0,0,0,0,0,2021
-IPI-004,Unik Residence,"Rua Visconde de Guaratiba",compact_unit,24,35,265000,379000,9445,11200,480,814,0,60,1,1,0,0,1,0,2025
