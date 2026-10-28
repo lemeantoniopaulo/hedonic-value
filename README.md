@@ -46,6 +46,11 @@ Consulte o [guia completo de uso](docs/USAGE.md).
 O arquivo em `inst/extdata` é artificial e anonimizado, para testes de esquema,
 validação e demonstrações. Não representa transações verificadas.
 
+Para executar a demonstração completa, use `demo("hedonicValue", package =
+"hedonicValue")` ou `hv_demo_report()`; o fluxo compara modelos, seleciona o
+menor RMSE de teste, calcula o intervalo de confiança de 80% e exibe uma
+triagem de fundamentação sem declarar conformidade normativa.
+
 ## Limites
 
 Coeficientes são associações condicionais, não efeitos causais automáticos. Representatividade, dependência espacial, transformações, incerteza, extrapolação, fundamentação e precisão devem ser avaliadas separadamente.

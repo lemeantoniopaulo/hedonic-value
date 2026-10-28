@@ -16,6 +16,11 @@ params:
   professional_responsibility: !r list(name=NA_character_, registration=NA_character_, technical_record=NA_character_)
   evidence_gaps: !r character()
   sample_data: null
+  model_comparison: null
+  selected_name: null
+  target: null
+  confidence_interval_80: null
+  fundamentacao: null
   model: null
 ---
 
@@ -96,6 +101,60 @@ if (is.null(params$model)) {
   print(broom::glance(params$model))
 } else {
   print(summary(params$model))
+}
+```
+
+## Seleção de modelos e variáveis
+
+```{r model_selection, results='asis'}
+comparison <- params$model_comparison
+if (is.null(comparison) || !is.data.frame(comparison) || !nrow(comparison)) {
+  cat("Comparação de modelos não informada.\\n")
+} else {
+  cat("Modelo selecionado pelo menor RMSE no conjunto de teste: <b>",
+      params$selected_name, "</b>\\n\\n", sep = "")
+  knitr::kable(comparison, format = "html")
+}
+```
+
+A seleção de variáveis deve ser justificada pelo avaliador considerando teoria
+de mercado, disponibilidade de dados, colinearidade, significância, diagnóstico
+e validação fora da amostra. O menor erro isolado não autoriza incluir variáveis
+sem suporte documental.
+
+## Estimativa e intervalo de confiança de 80%
+
+```{r confidence_interval_80, results='asis'}
+ci80 <- params$confidence_interval_80
+if (is.null(ci80) || !is.data.frame(ci80) || !nrow(ci80)) {
+  cat("Intervalo de confiança de 80% não informado.\\n")
+} else {
+  cat("A tabela abaixo é uma estimativa condicional do modelo; não representa automaticamente o campo de arbítrio normativo.\\n\\n")
+  knitr::kable(ci80, format = "html")
+}
+```
+
+## Triagem quantitativa de fundamentação (Grau I/II/III)
+
+```{r fundamentacao, results='asis'}
+fund <- params$fundamentacao
+if (is.null(fund)) {
+  cat("Triagem quantitativa não informada.\\n")
+} else {
+  cat("Variáveis independentes (k): ", fund$k, "\\n\\n", sep = "")
+  cat("Dados efetivamente utilizados (n): ", fund$n, "\\n\\n", sep = "")
+  threshold <- data.frame(
+    grau = names(fund$thresholds),
+    minimo_dados = as.numeric(fund$thresholds),
+    stringsAsFactors = FALSE
+  )
+  knitr::kable(threshold, format = "html")
+  cat("\\n\\nItens quantitativos:\\n\\n")
+  knitr::kable(fund$items, format = "html")
+  cat("\\n\\nTriagem quantitativa limitada pelo item: <b>",
+      fund$limiting_item, "</b>.\\n", sep = "")
+  cat("O enquadramento final depende dos itens qualitativos, da documentação,",
+      " da extrapolação, da identificação dos dados e da revisão profissional.\\n")
 }
 ```
 

@@ -15,6 +15,8 @@
 \alias{hv_temporal_split}
 \alias{hv_demo}
 \alias{hv_demo_report}
+\alias{hv_select_model}
+\alias{hv_fundamentacao}
 \alias{hv_render_report}
 \title{Modelos hedônicos, previsões, diagnósticos e relatórios}
 \description{Funções para modelagem hedônica exploratória, ajuste, previsão, diagnóstico, visualização, comparação e renderização de relatórios R Markdown. As funções não certificam conformidade normativa.}
@@ -35,6 +37,8 @@ hv_benchmark(models, test_data, truth, id = NULL)
 hv_temporal_split(data, date, cutoff)
 hv_demo(method = c("ols", "wls", "gls", "robust"), include_plots = TRUE)
 hv_demo_report(output_dir = tempdir(), output_format = c("html_document", "pdf_document", "word_document"))
+hv_select_model(models, test_data, truth, metric = c("rmse", "mae"), id = NULL)
+hv_fundamentacao(model)
 hv_render_report(input, output_file = NULL, output_dir = NULL, output_format = c("html_document", "pdf_document", "word_document"), params = list(), ...)
 }
 \arguments{

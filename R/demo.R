@@ -1,7 +1,8 @@
 #' Run a reproducible hedonicValue demonstration
 #'
-#' The demonstration uses only the synthetic package fixture. It does not
-#' write files and returns all objects needed for inspection or notebooks.
+#' The demonstration uses a larger synthetic urban-market fixture. It does not
+#' write files and returns model comparison, selection, diagnostics and
+#' fundamentação screening objects for inspection or notebooks.
 #'
 #' @param method One of `ols`, `wls`, `gls` or `robust`.
 #' @param include_plots Logical; include diagnostic ggplot objects in the
@@ -13,24 +14,50 @@ hv_demo <- function(method = c("ols", "wls", "gls", "robust"),
   method <- match.arg(method)
   stopifnot(length(include_plots) == 1L, !is.na(include_plots))
 
-  path <- system.file("extdata", "synthetic_property_test.csv",
+  path <- system.file("extdata", "synthetic_urban_market_120.csv",
                       package = "hedonicValue")
   if (!nzchar(path)) stop("Synthetic demonstration dataset is unavailable.")
 
   data <- utils::read.csv(path, stringsAsFactors = FALSE,
                           check.names = FALSE)
   data <- data[data$observation_type == "rent", , drop = FALSE]
-
-  weights <- if (method == "wls") data$area_built_m2 else NULL
-  model <- hv_fit_model(
-    rent_brl_month ~ area_built_m2 + bedrooms + lake_view + furnished,
-    data = data,
-    method = method,
-    weights = weights
+  data$observation_date <- as.Date(data$observation_date)
+  split <- hv_temporal_split(data, "observation_date",
+                             sort(unique(data$observation_date))[round(length(unique(data$observation_date)) * .75)])
+  train <- split$train
+  test <- split$test
+  formulas <- list(
+    estrutural = rent_brl_month ~ area_built_m2 + bedrooms + bathrooms + parking_spaces,
+    hedonic = rent_brl_month ~ area_built_m2 + bedrooms + bathrooms + parking_spaces +
+      age_years + condition_score + furnished + lake_view + pool_private +
+      distance_center_km,
+    hedonic_encargos = rent_brl_month ~ area_built_m2 + bedrooms + bathrooms +
+      parking_spaces + age_years + condition_score + furnished + lake_view +
+      pool_private + distance_center_km + condo_brl_month
   )
-
+  fit_one <- function(formula) {
+    hv_fit_model(formula, train, method = method,
+                 weights = if (method == "wls") train$area_built_m2 else NULL)
+  }
+  models <- lapply(formulas, fit_one)
+  selection <- hv_select_model(models, test, "rent_brl_month",
+                               metric = "rmse", id = "observation_id")
+  model <- selection$selected_model
   interval <- if (method %in% c("ols", "wls")) "confidence" else "none"
-  predictions <- hv_predict_model(model, data, interval = interval)
+  predictions <- hv_predict_model(model, test, interval = "none")
+  target <- data.frame(
+    area_built_m2 = median(data$area_built_m2),
+    bedrooms = round(median(data$bedrooms)),
+    bathrooms = round(median(data$bathrooms)),
+    parking_spaces = round(median(data$parking_spaces)),
+    age_years = round(median(data$age_years)),
+    condition_score = median(data$condition_score),
+    furnished = 1L, lake_view = 1L, pool_private = 0L,
+    distance_center_km = median(data$distance_center_km),
+    condo_brl_month = median(data$condo_brl_month)
+  )
+  target_ci80 <- hv_predict_model(model, target, interval = interval, level = .80)
+  fundamentacao <- hv_fundamentacao(model)
   plots <- if (isTRUE(include_plots)) {
     list(
       residuals = hv_plot(model, type = "residuals"),
@@ -38,7 +65,12 @@ hv_demo <- function(method = c("ols", "wls", "gls", "robust"),
     )
   } else NULL
 
-  list(data = data, model = model, predictions = predictions, plots = plots)
+  list(data = data, train_data = train, test_data = test, models = models,
+       model = model, selected_name = selection$selected_name,
+       model_comparison = selection$comparison, selection = selection,
+       predictions = predictions, target = target,
+       confidence_interval_80 = target_ci80,
+       fundamentacao = fundamentacao, plots = plots)
 }
 
 #' Render the complete normative demonstration report
@@ -88,7 +120,7 @@ hv_demo_report <- function(output_dir = tempdir(),
   evidence <- data.frame(
     id = "E-001",
     description = "Fixture sintético do pacote",
-    source = "synthetic_property_test.csv",
+    source = "synthetic_urban_market_120.csv",
     version_date = as.character(Sys.Date()),
     location = "inst/extdata",
     status = "SINTÉTICO",
@@ -109,6 +141,11 @@ hv_demo_report <- function(output_dir = tempdir(),
     evidence_gaps = c("Dados sintéticos; não representam transações de mercado.",
                       "Vistoria, fontes e responsabilidade profissional não foram informadas."),
     sample_data = demo_result$data,
+    model_comparison = demo_result$model_comparison,
+    selected_name = demo_result$selected_name,
+    target = demo_result$target,
+    confidence_interval_80 = demo_result$confidence_interval_80,
+    fundamentacao = demo_result$fundamentacao,
     model = demo_result$model
   )
   input <- file.path(tempdir(), "hedonicValue-demo.Rmd")

@@ -59,8 +59,11 @@ hv_plot(modelo, type = "residuals")
 hv_plot(modelo, type = "observed_vs_fitted")
 ```
 
-O arquivo de exemplo é artificial e todos os registros têm `is_synthetic = 1`.
-Ele serve para testes e demonstrações, não para inferência de mercado.
+O fixture unitário é artificial e todos os seus registros têm `is_synthetic = 1`.
+Ele serve para testes de esquema. A demonstração usa adicionalmente
+`synthetic_urban_market_120.csv`, com 120 observações e variáveis estruturais,
+locacionais e de conservação; ele continua sendo sintético e não serve para
+inferência de mercado.
 
 ## 3.1 Demonstração pronta
 
@@ -91,6 +94,15 @@ relatorio <- hv_demo_report(output_format = "html_document")
 O relatório usa o template do pacote e deixa todos os requisitos como
 `NÃO AVALIADO`. Ele não declara conformidade com a ABNT NBR 14653-2 ou com o
 IBAPE/SP; a análise e a responsabilidade permanecem com o avaliador.
+
+`hv_demo()` compara três especificações candidatas em um conjunto temporal de
+treino/teste, escolhe a de menor RMSE de teste com `hv_select_model()`, expõe a
+tabela de RMSE/MAE/viés e calcula uma estimativa com intervalo de confiança de
+80%. `hv_fundamentacao()` faz apenas uma triagem quantitativa: para regressão,
+os limiares de dados efetivamente usados são `3(k+1)` para Grau I, `4(k+1)` para
+Grau II e `6(k+1)` para Grau III. Significância de regressoras, teste F,
+identificação, extrapolação e documentação continuam sujeitos à revisão
+profissional; o pacote não declara o grau final.
 
 ## 4. Formato dos dados
 

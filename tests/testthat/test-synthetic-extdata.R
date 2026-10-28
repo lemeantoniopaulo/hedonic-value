@@ -18,11 +18,30 @@ test_that("dataset sintético é seguro e consistente", {
   expect_true(all(!is.na(d$asking_price_brl[d$observation_type == "sale"])))
 })
 
-test_that("demo programática usa somente o fixture sintético", {
+test_that("demo programática usa somente a base sintética", {
   result <- hv_demo(method = "ols", include_plots = FALSE)
   expect_s3_class(result$model, "hv_model")
-  expect_equal(nrow(result$data), 8)
+  expect_equal(nrow(result$data), 120)
   expect_true(all(result$data$is_synthetic == 1))
   expect_equal(result$plots, NULL)
-  expect_equal(nrow(result$predictions), nrow(result$data))
+  expect_equal(nrow(result$predictions), nrow(result$test_data))
+})
+
+test_that("demo de mercado compara modelos e calcula triagem quantitativa", {
+  result <- hv_demo(method = "ols", include_plots = FALSE)
+  expect_equal(nrow(result$data), 120)
+  expect_equal(nrow(result$model_comparison), 3)
+  expect_true(result$selected_name %in% result$model_comparison$model)
+  expect_equal(result$confidence_interval_80$.level, 0.80)
+  expect_equal(result$fundamentacao$k, 10)
+  expect_equal(result$fundamentacao$quantitative_grade, "III")
+})
+
+test_that("hv_select_model escolhe o menor erro de teste", {
+  d <- data.frame(y = 1:20, x = 1:20, z = rep(c(0, 1), 10))
+  a <- hv_fit_model(y ~ x, d[1:15, ])
+  b <- hv_fit_model(y ~ x + z, d[1:15, ])
+  selected <- hv_select_model(list(a = a, b = b), d[16:20, ], "y")
+  expect_true(selected$selected_name %in% c("a", "b"))
+  expect_equal(selected$criterion, "rmse")
 })

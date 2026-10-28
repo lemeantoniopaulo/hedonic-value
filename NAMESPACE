@@ -23,5 +23,7 @@ export(hv_benchmark)
 export(hv_temporal_split)
 export(hv_demo)
 export(hv_demo_report)
+export(hv_select_model)
+export(hv_fundamentacao)
 
 export(hv_render_report)
