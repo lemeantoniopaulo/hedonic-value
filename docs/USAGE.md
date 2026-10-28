@@ -80,6 +80,18 @@ resultado$predictions
 resultado$plots$residuals
 ```
 
+Para renderizar o relatório completo da demonstração, incluindo amostra,
+registro de evidências, matriz normativa, vistoria, responsabilidade técnica e
+limitações:
+
+```r
+relatorio <- hv_demo_report(output_format = "html_document")
+```
+
+O relatório usa o template do pacote e deixa todos os requisitos como
+`NÃO AVALIADO`. Ele não declara conformidade com a ABNT NBR 14653-2 ou com o
+IBAPE/SP; a análise e a responsabilidade permanecem com o avaliador.
+
 ## 4. Formato dos dados
 
 Para um modelo, a fórmula deve apontar para uma resposta numérica e para
@@ -256,3 +268,11 @@ O CI também executa `R CMD check` em Linux e Windows. A ausência de erros de
 execução não demonstra validade econômica, precisão normativa ou adequação da
 amostra. Ainda não estão automatizados validação espacial completa, controle
 abrangente de extrapolação, modelos espaciais e certificação normativa.
+
+## 11. Licença
+
+O pacote é distribuído sob a licença aberta MIT, conforme o arquivo `LICENSE`.
+Ela permite uso, cópia, modificação e redistribuição, preservando o aviso de
+copyright e a isenção de garantias. A licença do código não transforma dados
+de terceiros em dados redistribuíveis; somente os fixtures sintéticos do pacote
+são destinados à distribuição.

@@ -20,3 +20,11 @@ if (interactive()) {
   print(demo_result$plots$residuals)
   print(demo_result$plots$observed_vs_fitted)
 }
+
+if (requireNamespace("rmarkdown", quietly = TRUE) &&
+    rmarkdown::pandoc_available()) {
+  report_path <- hv_demo_report()
+  cat("\nComplete demonstration report:", report_path, "\n")
+} else {
+  cat("\nComplete report not rendered: install rmarkdown and Pandoc.\n")
+}

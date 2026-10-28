@@ -15,6 +15,7 @@ params:
   inspection: !r list(performed=FALSE, date=NA_character_, responsible=NA_character_)
   professional_responsibility: !r list(name=NA_character_, registration=NA_character_, technical_record=NA_character_)
   evidence_gaps: !r character()
+  sample_data: null
   model: null
 ---
 
@@ -69,6 +70,19 @@ if (is.null(evidence) || !is.data.frame(evidence) || !nrow(evidence)) {
   cat("Nenhuma evidência foi registrada.\\n")
 } else {
   knitr::kable(evidence, format = "html")
+}
+```
+
+## Amostra utilizada
+
+```{r sample_data, results='asis'}
+sample <- params$sample_data
+if (is.null(sample) || !is.data.frame(sample) || !nrow(sample)) {
+  cat("Amostra não informada.\\n")
+} else {
+  cat("Número de observações: ", nrow(sample), "\\n\\n", sep = "")
+  knitr::kable(utils::head(sample, 10), format = "html")
+  if (nrow(sample) > 10) cat("\\nA tabela exibe somente as 10 primeiras linhas.\\n")
 }
 ```
 

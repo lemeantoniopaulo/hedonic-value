@@ -14,6 +14,7 @@
 \alias{hv_benchmark}
 \alias{hv_temporal_split}
 \alias{hv_demo}
+\alias{hv_demo_report}
 \alias{hv_render_report}
 \title{Modelos hedônicos, previsões, diagnósticos e relatórios}
 \description{Funções para modelagem hedônica exploratória, ajuste, previsão, diagnóstico, visualização, comparação e renderização de relatórios R Markdown. As funções não certificam conformidade normativa.}
@@ -33,6 +34,7 @@ hv_plot(model, type = c("residuals", "observed_vs_fitted", "qq"))
 hv_benchmark(models, test_data, truth, id = NULL)
 hv_temporal_split(data, date, cutoff)
 hv_demo(method = c("ols", "wls", "gls", "robust"), include_plots = TRUE)
+hv_demo_report(output_dir = tempdir(), output_format = c("html_document", "pdf_document", "word_document"))
 hv_render_report(input, output_file = NULL, output_dir = NULL, output_format = c("html_document", "pdf_document", "word_document"), params = list(), ...)
 }
 \arguments{
@@ -60,6 +62,8 @@ hv_render_report(input, output_file = NULL, output_dir = NULL, output_format = c
 \item{evidence}{Metadados de evidência normativa.}
 \item{type}{Tipo de gráfico.}
 \item{include_plots}{Se deve incluir objetos ggplot no resultado da demonstração.}
+\item{output_dir}{Diretório para o relatório renderizado da demonstração.}
+\item{output_format}{Formato do relatório da demonstração.}
 \item{...}{Argumentos adicionais do estimador ou da renderização.}
 }
 \value{Modelo, tibble, data frame, objeto ggplot, lista de diagnóstico ou caminho do relatório renderizado, conforme a função.}
