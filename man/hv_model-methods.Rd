@@ -4,8 +4,8 @@
 \alias{glance.hv_model}
 \alias{augment.hv_model}
 \alias{autoplot.hv_model}
-\title{S3 methods for hedonic valuation models}
-\description{Print, tidy, glance, augment and plot methods for hv_model objects.}
+\title{Métodos S3 para modelos de avaliação hedônica}
+\description{Métodos de impressão, organização, síntese, ampliação e gráfico para objetos hv_model.}
 \usage{
 \method{print}{hv_model}(x, ...)
 \method{tidy}{hv_model}(x, ...)
@@ -15,10 +15,10 @@
     type = c("diagnostics", "observed_vs_fitted"), ...)
 }
 \arguments{
-\item{x}{An hv_model object.}
-\item{object}{An hv_model object.}
-\item{data}{Optional data frame.}
-\item{type}{Plot type.}
-\item{...}{Additional arguments.}
+\item{x}{Objeto hv_model.}
+\item{object}{Objeto hv_model.}
+\item{data}{Data frame opcional.}
+\item{type}{Tipo de gráfico.}
+\item{...}{Argumentos adicionais.}
 }
-\value{An invisible model, tibble or ggplot object depending on method.}
+\value{Modelo invisível, tibble ou objeto ggplot, conforme o método.}

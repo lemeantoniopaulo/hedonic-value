@@ -8,7 +8,12 @@ output:
 params:
   study: "Não informado"
   purpose: "Não informado"
-  status: "REVISAO_PROFISSIONAL_PENDENTE"
+  status: "NÃO AVALIADO"
+  normative_references: !r c("ABNT NBR 14653-2:2011", "IBAPE/SP:2011")
+  requirement_matrix: !r data.frame(id=character(), reference=character(), requirement=character(), status=character(), evidence=character(), gap=character(), responsible=character(), stringsAsFactors=FALSE)
+  evidence_register: !r data.frame(id=character(), description=character(), source=character(), version_date=character(), location=character(), status=character(), stringsAsFactors=FALSE)
+  inspection: !r list(performed=FALSE, date=NA_character_, responsible=NA_character_)
+  professional_responsibility: !r list(name=NA_character_, registration=NA_character_, technical_record=NA_character_)
   evidence_gaps: !r character()
   model: null
 ---
@@ -25,6 +30,48 @@ fmt <- function(x, fallback = "Não informado") {
 - Estudo: `r fmt(params$study)`
 - Finalidade: `r fmt(params$purpose)`
 
+# Referências normativas
+
+Este relatório registra as edições normativas informadas para o trabalho. A
+presença de uma referência não constitui declaração de conformidade.
+
+```{r normative_references, results='asis'}
+refs <- params$normative_references
+if (is.null(refs) || !length(refs)) {
+  cat("Referências normativas não informadas.\\n")
+} else {
+  cat(paste0("- ", refs, collapse = "\\n"), "\\n")
+}
+```
+
+# Vistoria, evidências e responsabilidade
+
+```{r inspection}
+inspection <- params$inspection
+if (is.null(inspection)) inspection <- list()
+cat("Vistoria realizada: ", fmt(inspection$performed, "Não informado"), "\\n", sep = "")
+cat("Data da vistoria: ", fmt(inspection$date), "\\n", sep = "")
+cat("Responsável pela vistoria: ", fmt(inspection$responsible), "\\n", sep = "")
+
+professional <- params$professional_responsibility
+if (is.null(professional)) professional <- list()
+cat("Responsável técnico: ", fmt(professional$name), "\\n", sep = "")
+cat("Registro profissional: ", fmt(professional$registration), "\\n", sep = "")
+cat("Registro de responsabilidade técnica: ",
+    fmt(professional$technical_record), "\\n", sep = "")
+```
+
+## Registro de evidências
+
+```{r evidence_register, results='asis'}
+evidence <- params$evidence_register
+if (is.null(evidence) || !is.data.frame(evidence) || !nrow(evidence)) {
+  cat("Nenhuma evidência foi registrada.\\n")
+} else {
+  knitr::kable(evidence, format = "html")
+}
+```
+
 # Modelo estatístico
 
 ```{r model_summary}
@@ -38,19 +85,71 @@ if (is.null(params$model)) {
 }
 ```
 
-# Evidências pendentes
+# Matriz de verificação normativa
 
-```{r gaps, results='asis'}
+Cada requisito deve ser associado a uma evidência e a uma pendência. Os únicos
+estados aceitos são `ATENDIDO`, `PARCIAL`, `PENDENTE`, `NÃO APLICÁVEL` e
+`NÃO AVALIADO`. O template não transforma resultados estatísticos em
+conformidade normativa.
+
+```{r requirement_matrix, results='asis'}
+allowed_status <- c("ATENDIDO", "PARCIAL", "PENDENTE", "NÃO APLICÁVEL",
+                    "NÃO AVALIADO")
+requirements <- params$requirement_matrix
+if (is.null(requirements) || !is.data.frame(requirements) || !nrow(requirements)) {
+  requirements <- data.frame(
+    id = c("N-001", "N-002", "N-003", "N-004", "N-005", "N-006", "N-007", "N-008"),
+    reference = rep("ABNT NBR 14653-2:2011 / IBAPE/SP:2011", 8),
+    requirement = c(
+      "Definir finalidade, objeto, data-base e escopo do trabalho",
+      "Identificar e qualificar as fontes e os dados de mercado",
+      "Caracterizar o imóvel e a vistoria/documentação examinada",
+      "Justificar seleção, comparabilidade e homogeneização da amostra",
+      "Registrar tratamento de ofertas, duplicidades, outliers e ausências",
+      "Documentar método, variáveis, hipóteses e diagnósticos do modelo",
+      "Avaliar extrapolação, fundamentação, precisão e limitações",
+      "Registrar responsável técnico, evidências e conclusão profissional"
+    ),
+    status = rep("NÃO AVALIADO", 8),
+    evidence = rep("", 8),
+    gap = rep("Preencher com evidência versionada", 8),
+    responsible = rep("", 8),
+    stringsAsFactors = FALSE
+  )
+}
+missing_columns <- setdiff(c("id", "reference", "requirement", "status",
+                             "evidence", "gap", "responsible"),
+                           names(requirements))
+if (length(missing_columns)) {
+  stop("requirement_matrix missing columns: ",
+       paste(missing_columns, collapse = ", "))
+}
+if (any(!requirements$status %in% allowed_status)) {
+  stop("Invalid normative status. Use: ", paste(allowed_status, collapse = ", "))
+}
+knitr::kable(requirements, format = "html")
+```
+
+# Fundamentação, precisão e limitações
+
+```{r evidence_gaps, results='asis'}
 gaps <- params$evidence_gaps
 if (length(gaps)) cat(paste0("- ", gaps, collapse = "\\n")) else
-  cat("Nenhuma pendência informada. Isso não equivale a conformidade.")
+  cat("Nenhuma pendência foi informada. Isso não equivale a conformidade.")
 ```
+
+O responsável técnico deve registrar, no mínimo, a representatividade da
+amostra, a identificação e qualificação das fontes, o tratamento de ofertas,
+duplicidades e outliers, a homogeneização, o controle de extrapolação, os
+diagnósticos do modelo, a fundamentação, a precisão e as limitações.
 
 # Estado da avaliação
 
-`r fmt(params$status, "CONFORMIDADE_NAO_DETERMINADA")`
+`r fmt(params$status, "NÃO AVALIADO")`
 
-Este relatório organiza resultados e pendências. Não certifica conformidade com a ABNT NBR 14653-2, não substitui laudo e não substitui responsabilidade técnica.
+Este relatório organiza resultados e pendências. Não certifica conformidade com
+a ABNT NBR 14653-2 ou com a norma IBAPE/SP, não substitui laudo e não
+substitui responsabilidade técnica.
 
 # Conclusão profissional
 
