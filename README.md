@@ -41,6 +41,12 @@ O pacote adota R Markdown como formato canônico:
 
 Consulte o [guia completo de uso](docs/USAGE.md).
 
+## Bases abertas para pesquisa
+
+O catálogo em português de bases oficiais para regressão hedônica, com classificação,
+licenças, vieses e plano de integração em R, está em
+[docs/BASES_ABERTAS_REGRESSAO_HEDONICA.md](docs/BASES_ABERTAS_REGRESSAO_HEDONICA.md).
+
 ## Dados de exemplo
 
 O arquivo em `inst/extdata` é artificial e anonimizado, para testes de esquema,
