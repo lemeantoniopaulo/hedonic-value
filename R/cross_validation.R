@@ -55,7 +55,7 @@ hv_cross_validate <- function(data, y, predictors, response = c("original", "log
     rt <- if (response == "log") hv_retransformation(fit, retransformation) else NULL
     pred <- if (response == "log") hv_back_transform(eta, rt, "mean") else eta
     met <- hv_prediction_metrics(test[[y]], pred)
-    fold_results[[index]] <- data.frame(repeat = r, fold = f, t(met),
+    fold_results[[index]] <- data.frame(repeat_id = r, fold = f, t(met),
       train_n = nrow(train), test_n = nrow(test), stringsAsFactors = FALSE)
   }
   fold_table <- do.call(rbind, fold_results)
