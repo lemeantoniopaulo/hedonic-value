@@ -20,24 +20,25 @@ hv_normative_checks <- function(model, data, y, newdata = NULL, predictors = NUL
   source <- if (is.null(normative_source)) NA_character_ else as.character(normative_source)[1L]
   rows <- list(
     hv_normative_requirement("N-001", "Quantidade de dados efetivamente utilizados",
-      "PENDENTE_DE_ANALISE_TECNICA", "Edição normativa e item aplicável não informados",
+      "Pendente de análise técnica", "Edição normativa e item aplicável não informados",
       as.character(n), source, NA, n, "O cálculo amostral é reportado, mas o limite normativo não foi presumido."),
     hv_normative_requirement("N-002", "Quantidade de variáveis independentes",
-      "PENDENTE_DE_ANALISE_TECNICA", "Edição normativa e item aplicável não informados",
+      "Pendente de análise técnica", "Edição normativa e item aplicável não informados",
       as.character(k), source, NA, k, "A contagem computável não substitui o critério normativo aplicável."),
     hv_normative_requirement("N-003", "Singularidade e multicolinearidade da matriz de projeto",
-      if (qr(X)$rank < ncol(X)) "NAO_CONFORME" else "PENDENTE_DE_ANALISE_TECNICA",
+      "Pendente de análise técnica",
       "Diagnóstico computável; limiar normativo não presumido", paste0("rank=", qr(X)$rank,
       "; colunas=", ncol(X)), source, NA, qr(X)$rank, if (qr(X)$rank < ncol(X))
-        "Matriz de projeto singular." else "Limiar normativo e interpretação profissional ainda requeridos."),
+        "Matriz de projeto singular; o status normativo requer regra identificada." else
+        "Limiar normativo e interpretação profissional ainda requeridos."),
     hv_normative_requirement("N-004", "Significância global e dos regressores",
-      "PENDENTE_DE_ANALISE_TECNICA", "Não classificar automaticamente por p-valores",
+      "Pendente de análise técnica", "Não classificar automaticamente por p-valores",
       "summary(model)", source, NA, NA, "Inferência convencional após seleção automática requer cautela."),
     hv_normative_requirement("N-005", "Exame dos resíduos e pontos influentes",
-      "PENDENTE_DE_ANALISE_TECNICA", "Exame estatístico e julgamento profissional",
+      "Pendente de análise técnica", "Exame estatístico e julgamento profissional",
       "resíduos, alavancagem e Cook disponíveis", source, NA, NA, "Resultados exploratórios não demonstram atendimento normativo."),
     hv_normative_requirement("N-006", "Fundamentação, precisão e documentação",
-      "NAO_VERIFICAVEL", "Fonte normativa/edição/item não confirmados",
+      "Não verificável", "Fonte normativa/edição/item não confirmados",
       NA, source, NA, NA, "Depende de dados de mercado, vistoria, documentação e responsabilidade técnica.",
       "Perito deve informar e fundamentar a edição normativa aplicável.")
   )
@@ -45,8 +46,7 @@ hv_normative_checks <- function(model, data, y, newdata = NULL, predictors = NUL
     if (is.null(predictors)) predictors <- attr(stats::terms(fit), "term.labels")
     ext <- hv_check_extrapolation(data, newdata, intersect(predictors, names(data)))
     rows[[length(rows) + 1L]] <- hv_normative_requirement("N-007", "Domínio e extrapolação do avaliando",
-      if (any(ext$status %in% c("EXTRAPOLATION", "UNSEEN_CATEGORY"))) "PENDENTE_DE_ANALISE_TECNICA"
-        else if (any(ext$status == "INDETERMINATE")) "NAO_VERIFICAVEL" else "PENDENTE_DE_ANALISE_TECNICA",
+      "Pendente de análise técnica",
       "Comparação descritiva com os limites observados; extrapolação multivariada não presumida",
       paste(capture.output(print(ext, row.names = FALSE)), collapse = " | "), source, NA, NA,
       "A situação requer avaliação técnica e não é decidida apenas por limites univariados.")
