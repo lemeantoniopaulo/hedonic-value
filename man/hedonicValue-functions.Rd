@@ -62,8 +62,6 @@ hv_render_report(input, output_file = NULL, output_dir = NULL, output_format = c
 \item{evidence}{Metadados de evidência normativa.}
 \item{type}{Tipo de gráfico.}
 \item{include_plots}{Se deve incluir objetos ggplot no resultado da demonstração.}
-\item{output_dir}{Diretório para o relatório renderizado da demonstração.}
-\item{output_format}{Formato do relatório da demonstração.}
 \item{...}{Argumentos adicionais do estimador ou da renderização.}
 }
 \value{Modelo, tibble, data frame, objeto ggplot, lista de diagnóstico ou caminho do relatório renderizado, conforme a função.}

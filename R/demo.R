@@ -44,7 +44,7 @@ hv_demo <- function(method = c("ols", "wls", "gls", "robust"),
 #' Render the complete normative demonstration report
 #'
 #' The report is built from the installed R Markdown template and uses only
-#' synthetic data. Every normative item starts as `NÃO AVALIADO`; no conformity
+#' synthetic data. Every normative item starts as `NAO AVALIADO`; no conformity
 #' statement is generated automatically.
 #'
 #' @param output_dir Directory for the rendered report. Defaults to a temporary
@@ -72,32 +72,32 @@ hv_demo_report <- function(output_dir = tempdir(),
     requirement = c(
       "Finalidade, objeto, data-base e escopo",
       "Fontes e dados de mercado",
-      "Caracterização, vistoria e documentação",
-      "Seleção, comparabilidade e homogeneização",
-      "Ofertas, duplicidades, outliers e ausências",
-      "Método, variáveis e diagnósticos",
-      "Extrapolação, fundamentação, precisão e limitações",
-      "Responsabilidade técnica e conclusão"
+      "Caracterizacao, vistoria e documentacao",
+      "Selecao, comparabilidade e homogeneizacao",
+      "Ofertas, duplicidades, outliers e ausencias",
+      "Metodo, variaveis e diagnosticos",
+      "Extrapolacao, fundamentacao, precisao e limitacoes",
+      "Responsabilidade tecnica e conclusao"
     ),
-    status = rep("NÃO AVALIADO", 8),
+    status = rep("NAO AVALIADO", 8),
     evidence = rep("", 8),
-    gap = rep("Requer análise e evidência do avaliador", 8),
+     gap = rep("Requer analise e evidencia do avaliador", 8),
     responsible = rep("", 8),
     stringsAsFactors = FALSE
   )
   evidence <- data.frame(
     id = "E-001",
-    description = "Fixture sintético do pacote",
+    description = "Fixture sintetico do pacote",
     source = "synthetic_property_test.csv",
     version_date = as.character(Sys.Date()),
     location = "inst/extdata",
-    status = "SINTÉTICO",
+    status = "SINTETICO",
     stringsAsFactors = FALSE
   )
   params <- list(
-    study = "Demonstração hedonicValue",
-    purpose = "Exemplo reprodutível de modelagem e organização de evidências",
-    status = "NÃO AVALIADO",
+    study = "Demonstracao hedonicValue",
+    purpose = "Exemplo reprodutivel de modelagem e organizacao de evidencias",
+    status = "NAO AVALIADO",
     normative_references = c("ABNT NBR 14653-2:2011", "IBAPE/SP:2011"),
     requirement_matrix = requirements,
     evidence_register = evidence,
@@ -106,8 +106,8 @@ hv_demo_report <- function(output_dir = tempdir(),
     professional_responsibility = list(name = NA_character_,
                                        registration = NA_character_,
                                        technical_record = NA_character_),
-    evidence_gaps = c("Dados sintéticos; não representam transações de mercado.",
-                      "Vistoria, fontes e responsabilidade profissional não foram informadas."),
+    evidence_gaps = c("Dados sinteticos; nao representam transacoes de mercado.",
+                      "Vistoria, fontes e responsabilidade profissional nao foram informadas."),
     sample_data = demo_result$data,
     model = demo_result$model
   )
