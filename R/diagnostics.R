@@ -5,7 +5,7 @@ hv_diagnose_model <- function(model, vif_threshold = NULL) {
   if (!inherits(fit, "lm")) stop("hv_diagnose_model currently requires an lm model.")
   sm <- summary(fit); co <- sm$coefficients
   X <- stats::model.matrix(fit); p <- ncol(X)
-  vif <- setNames(rep(NA_real_, max(0L, p - 1L)), colnames(X)[-1L])
+  vif <- stats::setNames(rep(NA_real_, max(0L, p - 1L)), colnames(X)[-1L])
   if (p > 2L) {
     for (j in 2L:p) {
       others <- X[, -j, drop = FALSE]

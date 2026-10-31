@@ -48,7 +48,7 @@ hv_normative_checks <- function(model, data, y, newdata = NULL, predictors = NUL
     rows[[length(rows) + 1L]] <- hv_normative_requirement("N-007", "Dominio e extrapolacao do avaliando",
       "Pendente de analise tecnica",
       "Comparacao descritiva com os limites observados; extrapolacao multivariada nao presumida",
-      paste(capture.output(print(ext, row.names = FALSE)), collapse = " | "), source, NA, NA,
+      paste(utils::capture.output(print(ext, row.names = FALSE)), collapse = " | "), source, NA, NA,
       "A situacao requer avaliacao tecnica e nao e decidida apenas por limites univariados.")
   }
   result <- do.call(rbind, rows)

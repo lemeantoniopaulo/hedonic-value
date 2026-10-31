@@ -72,7 +72,7 @@ hv_tournament <- function(population, fitness, size = 3L) {
 }
 
 hv_crossover <- function(a, b, probability = 0.8) {
-  if (length(a) < 2L || runif(1) > probability) return(list(a, b))
+  if (length(a) < 2L || stats::runif(1) > probability) return(list(a, b))
   point <- sample(seq_len(length(a) - 1L), 1L)
   list(c(a[seq_len(point)], b[-seq_len(point)]),
        c(b[seq_len(point)], a[-seq_len(point)]))
@@ -80,7 +80,7 @@ hv_crossover <- function(a, b, probability = 0.8) {
 
 hv_mutate <- function(chromosome, space, probability = 0.1) {
   out <- chromosome
-  for (i in seq_along(out)) if (runif(1) < probability && length(space[[i]]) > 1L)
+  for (i in seq_along(out)) if (stats::runif(1) < probability && length(space[[i]]) > 1L)
     out[[i]] <- sample(setdiff(space[[i]], out[[i]]), 1L)
   out
 }
