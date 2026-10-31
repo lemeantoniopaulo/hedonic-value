@@ -47,8 +47,8 @@ test_that("normative output preserves evidence states and extrapolation", {
   m <- hv_fit(price ~ area, d)
   result <- hv_normative_checks(m, d, "price",
     newdata = data.frame(area = 100), normative_source = NULL)
-  expect_true(all(result$status %in% c("Pendente de análise técnica",
-    "Não verificável", "Não conforme", "Conforme", "Não aplicável")))
+  expect_true(all(result$status %in% c("Pendente de analise tecnica",
+    "Nao verificavel", "Nao conforme", "Conforme", "Nao aplicavel")))
   expect_equal(hv_check_extrapolation(d, data.frame(area = 100), "area")$status,
     "EXTRAPOLATION")
 })

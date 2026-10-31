@@ -71,16 +71,58 @@ hv_run_app(...)
   \item{data}{A data frame.}
   \item{y}{Response column name.}
   \item{predictors}{Predictor column names.}
+  \item{overrides}{Optional named type overrides.}
+  \item{identifier_patterns}{Patterns used to flag likely identifiers.}
+  \item{missing}{Missing-data policy.}
+  \item{allow_duplicates}{Whether duplicated modeled rows are allowed.}
+  \item{columns}{Columns required for complete cases.}
+  \item{context}{Description used in complete-case errors.}
+  \item{x}{Numeric input vector.}
+  \item{z}{Box--Cox transformed numeric vector.}
+  \item{lambdas}{Candidate Box--Cox lambdas.}
   \item{transformations}{Named list with "exclude", "linear" or numeric Box--Cox lambdas.}
+  \item{shifts}{Named explicit Box--Cox shifts.}
+  \item{fit}{A fitted \code{lm} model.}
+  \item{method}{Retransformation method.}
+  \item{eta}{Predictions on the log scale.}
+  \item{retransformation}{A retransformation correction object.}
+  \item{target}{Conditional median or mean target.}
+  \item{n}{Number of observations.}
+  \item{k}{Number of folds.}
+  \item{repeats}{Number of fold repetitions.}
+  \item{seed}{Optional random seed.}
+  \item{observed}{Observed response values.}
+  \item{predicted}{Predicted response values.}
+  \item{folds}{Precomputed cross-validation folds.}
   \item{lambda}{A finite Box--Cox lambda.}
   \item{shift}{An explicitly configured additive shift; defaults to zero.}
   \item{response}{Response family.}
+  \item{categorical}{Predictors treated as categorical.}
+  \item{fixed}{Predictors that must be included.}
+  \item{excluded}{Predictors that must be excluded.}
+  \item{chromosome}{One gene per predictor.}
+  \item{limit}{Maximum exhaustive search size.}
+  \item{population_size}{Genetic population size.}
+  \item{generations}{Maximum generations.}
+  \item{crossover_probability}{Crossover probability.}
+  \item{mutation_probability}{Mutation probability.}
+  \item{elitism}{Number of elite individuals.}
+  \item{patience}{Generations without improvement before stopping.}
+  \item{runs}{Independent genetic runs.}
+  \item{max_evaluations}{Maximum fitness evaluations.}
+  \item{exhaustive_limit}{Maximum size for the exhaustive reference.}
   \item{model}{A fitted model object.}
   \item{newdata}{A data frame for prediction or extrapolation.}
   \item{space}{A chromosome gene space.}
   \item{fitness}{Function returning a finite scalar loss or a list with "loss".}
+  \item{vif_threshold}{Optional exploratory VIF threshold.}
+  \item{normative_source}{Confirmed normative source and edition, when available.}
+  \item{rules}{Optional versioned normative rules; no defaults are invented.}
   \item{result}{A normative result data frame.}
   \item{audit}{An audit trail object.}
+  \item{configuration}{Configuration recorded in the audit trail.}
+  \item{run_id}{Optional execution identifier.}
+  \item{complexity_penalty}{Transparent penalty per selected predictor.}
   \item{...}{Arguments passed to shiny::runApp.}
 }
 \value{A data frame, list, model, numeric vector, or invisible file path depending on the function.}
